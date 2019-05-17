@@ -49,7 +49,7 @@ $config = [
             'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
-
+                "/"=>"/default/index"
             ],
         ],
 
