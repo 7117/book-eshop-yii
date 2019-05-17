@@ -7,7 +7,7 @@
     <title>管理后台</title>
     <link href="/css/web/bootstrap.min.css" rel="stylesheet">
     <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="/css/web/style.css?ver=20170326180701" rel="stylesheet"></head>
+    <link href="/css/web/style.css?ver=20170401" rel="stylesheet"></head>
 
 <body>
 <div id="wrapper">
@@ -16,6 +16,8 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="profile-element text-center">
+                        <img alt="image" class="img-circle" src="/images/web/logo.png" />
+                        <p class="text-muted">孙潇</p>
                     </div>
                     <div class="logo-element">
                         <img alt="image" class="img-circle" src="/images/web/logo.png" />
@@ -61,7 +63,7 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
 						<span class="m-r-sm text-muted welcome-message">
-                            欢迎使用图书商城管理后台
+                            图书商城管理后台
                         </span>
                     </li>
                     <li class="hidden">
@@ -79,14 +81,13 @@
                         <ul class="dropdown-menu dropdown-messages">
                             <li>
                                 <div class="dropdown-messages-box">
-                                    姓名：孙潇<a href="/web/user/edit" class="pull-right">编辑</a>
+                                    姓名：孙潇                                    <a href="/web/user/edit" class="pull-right">编辑</a>
                                 </div>
                             </li>
                             <li class="divider"></li>
                             <li>
                                 <div class="dropdown-messages-box">
-                                    手机号码：11012345679
-                                </div>
+                                    手机号码：11012345679                                </div>
                             </li>
                             <li class="divider"></li>
                             <li>
@@ -112,47 +113,34 @@
                 <div class="tab_title">
                     <ul class="nav nav-pills">
                         <li  class="current"  >
-                            <a href="/web/user/edit">信息编辑</a>
+                            <a href="/web/brand/info">品牌信息</a>
                         </li>
                         <li  >
-                            <a href="/web/user/reset-pwd">修改密码</a>
+                            <a href="/web/brand/images">品牌相册</a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div><div class="row m-t  user_edit_wrap">
-            <div class="col-lg-12">
-                <h2 class="text-center">账号信息编辑</h2>
-                <div class="form-horizontal m-t m-b">
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">手机:</label>
-                        <div class="col-lg-10">
-                            <input type="text" name="mobile" class="form-control" placeholder="请输入手机"  readonly value="11012345679">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
+        </div><div class="row m-t">
+            <div class="col-lg-9 col-lg-offset-2 m-t">
+                <dl class="dl-horizontal">
+                    <dt>品牌名称</dt>
+                    <dd>孙潇</dd>
+                    <dt>品牌Logo</dt>
+                    <dd>
+                        <img class="img-circle circle-border" src="/uploads/brand/20170301/a8887738ab1bfd71765dd063fee4ddaa.jpg" style="width: 100px;height: 100px;"/>
+                    </dd>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">姓名:</label>
-                        <div class="col-lg-10">
-                            <input type="text" name="nickname" class="form-control" placeholder="请输入姓名~~" value="孙潇">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label">邮箱:</label>
-                        <div class="col-lg-10">
-                            <input type="text" name="email" class="form-control" placeholder="请输入邮箱" value="18701558590@139.com">
-                        </div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <div class="col-lg-4 col-lg-offset-2">
-                            <button class="btn btn-w-m btn-outline btn-primary save">保存</button>
-                        </div>
-                    </div>
-                </div>
+                    <dt>联系电话</dt>
+                    <dd>12113021774</dd>
+                    <dt>地址</dt>
+                    <dd>上海徐汇区宜山路810号8号楼创嘉站201 （贝岭电子大厦院内）</dd>
+                    <dt>品牌介绍</dt>
+                    <dd>我店是知名的综合性网上购物商城，由国内著名出版机构科文公司、美国老虎基金、美国IDG集团、卢森堡剑桥集团、亚洲创业投资基金（原名软银中国创业基金）共同投资成立。</dd>
+                    <dd>
+                        <a href="/web/brand/set" class="btn btn-outline btn-primary btn-w-m">编辑</a>
+                    </dd>
+                </dl>
             </div>
         </div>
 
