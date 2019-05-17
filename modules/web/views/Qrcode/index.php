@@ -63,7 +63,7 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
 						<span class="m-r-sm text-muted welcome-message">
-                        图书商城管理后台
+                           图书商城管理后台
                         </span>
                     </li>
                     <li class="hidden">

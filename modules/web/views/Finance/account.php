@@ -17,7 +17,7 @@
                 <li class="nav-header">
                     <div class="profile-element text-center">
                         <img alt="image" class="img-circle" src="/images/web/logo.png" />
-                        <p class="text-muted">编程浪子</p>
+                        <p class="text-muted">孙潇</p>
                     </div>
                     <div class="logo-element">
                         <img alt="image" class="img-circle" src="/images/web/logo.png" />
@@ -63,7 +63,7 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
 						<span class="m-r-sm text-muted welcome-message">
-                            欢迎使用编程浪子图书商城管理后台
+                        图书商城管理后台
                         </span>
                     </li>
                     <li class="hidden">
@@ -81,7 +81,7 @@
                         <ul class="dropdown-menu dropdown-messages">
                             <li>
                                 <div class="dropdown-messages-box">
-                                    姓名：编程浪子郭大爷                                    <a href="/web/user/edit" class="pull-right">编辑</a>
+                                    姓名：孙潇                                    <a href="/web/user/edit" class="pull-right">编辑</a>
                                 </div>
                             </li>
                             <li class="divider"></li>
