@@ -18,7 +18,6 @@
                 <li class="nav-header">
                     <div class="profile-element text-center">
                         <img alt="image" class="img-circle" src="/images/web/logo.png" />
-                        <p class="text-muted">孙潇</p>
                     </div>
                     <div class="logo-element">
                         <img alt="image" class="img-circle" src="/images/web/logo.png" />
