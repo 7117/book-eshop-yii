@@ -9,33 +9,33 @@ use yii\web\Controller;
  */
 class BookController extends Controller
 {
+    public function __construct($id,$module,array $config=[]){
+        parent::__construct($id,$module,$config);
+        $this->layout="main";
+    }
+
     public function actionIndex()
     {
-        $this->layout=false;
         return $this->render('index');
     }
 
     public function actionSet()
     {
-        $this->layout=false;
         return $this->render('set');
     }
 
     public function actionInfo()
     {
-        $this->layout=false;
         return $this->render('info');
     }
 
     public function actionImages()
     {
-        $this->layout=false;
         return $this->render('images');
     }
 
     public function actionCat()
     {
-        $this->layout=false;
         return $this->render('cat');
     }
 }

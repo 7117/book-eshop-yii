@@ -4,26 +4,26 @@ namespace app\modules\web\controllers;
 
 use yii\web\Controller;
 
-/**
- * Default controller for the `web` module
- */
 class UserController extends Controller
 {
+    public function __construct($id,$module,array $config=[]){
+        parent::__construct($id,$module,$config);
+        $this->layout="main";
+    }
+
     public function actionLogin()
     {
-        $this->layout=false;
+        $this->layout="user";
         return $this->render('login');
     }
 
     public function actionEdit()
     {
-        $this->layout=false;
         return $this->render('edit');
     }
 
     public function actionResetPwd()
     {
-        $this->layout=false;
         return $this->render('reset_pwd');
     }
 }
