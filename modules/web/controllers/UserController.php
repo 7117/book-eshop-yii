@@ -4,9 +4,6 @@ namespace app\modules\web\controllers;
 
 use yii\web\Controller;
 
-/**
- * Default controller for the `web` module
- */
 class UserController extends Controller
 {
     public function __construct($id,$module,array $config=[]){
@@ -16,6 +13,7 @@ class UserController extends Controller
 
     public function actionLogin()
     {
+        $this->layout=false;
         return $this->render('login');
     }
 
