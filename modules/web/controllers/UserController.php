@@ -9,21 +9,23 @@ use yii\web\Controller;
  */
 class UserController extends Controller
 {
+    public function __construct($id,$module,array $config=[]){
+        parent::__construct($id,$module,$config);
+        $this->layout="main";
+    }
+
     public function actionLogin()
     {
-        $this->layout=false;
         return $this->render('login');
     }
 
     public function actionEdit()
     {
-        $this->layout=false;
         return $this->render('edit');
     }
 
     public function actionResetPwd()
     {
-        $this->layout=false;
         return $this->render('reset_pwd');
     }
 }

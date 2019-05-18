@@ -9,27 +9,28 @@ use yii\web\Controller;
  */
 class StatController extends Controller
 {
+    public function __construct($id,$module,array $config=[]){
+        parent::__construct($id,$module,$config);
+        $this->layout="main";
+    }
+
     public function actionIndex()
     {
-        $this->layout=false;
         return $this->render('index');
     }
 
     public function actionProduct()
     {
-        $this->layout=false;
         return $this->render('product');
     }
 
     public function actionMember()
     {
-        $this->layout=false;
         return $this->render('member');
     }
 
     public function actionShare()
     {
-        $this->layout=false;
         return $this->render('share');
     }
 

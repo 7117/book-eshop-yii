@@ -9,21 +9,24 @@ use yii\web\Controller;
  */
 class FinanceController extends Controller
 {
+    public function __construct($id,$module,array $config=[]){
+        parent::__construct($id,$module,$config);
+        $this->layout="main";
+    }
+
+
     public function actionIndex()
     {
-        $this->layout=false;
         return $this->render('index');
     }
 
     public function actionAccount()
     {
-        $this->layout=false;
         return $this->render('account');
     }
 
     public function actionPay_Info()
     {
-        $this->layout=false;
         return $this->render('pay_info');
     }
 }
