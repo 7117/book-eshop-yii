@@ -3,6 +3,7 @@
 namespace app\modules\web\controllers\common;
 
 use Yii;
+use app\models\user;
 use app\common\components\BaseWebController;
 use app\common\services\UrlService;
 
@@ -50,7 +51,7 @@ class BaseController extends BaseWebController
         }
         list($auth_token,$uid)=explode("#",$auth_cookie);
 
-        if($auth_token || $uid){
+        if(!$auth_token || !$uid){
             return false;
         }
 

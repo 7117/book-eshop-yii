@@ -2,11 +2,12 @@
 
 namespace app\controllers;
 
-use app\common\components\BaseWebController;
 use Yii;
 use yii\log\FileTarget;
+use app\common\services\AppLogService;
+use app\modules\web\controllers\common\BaseController;
 
-class ErrorController extends BaseWebController
+class ErrorController extends BaseController
 {
     public function actionError(){
         $request=Yii::$app->request;
@@ -43,6 +44,9 @@ class ErrorController extends BaseWebController
             ];
 
             $log->export();
+
+            //save to DB
+            AppLogService::addErrorLog(Yii::$app->id,$err_msg);
         }
 
         return '错误提示：<br><br>'.$err_msg;
