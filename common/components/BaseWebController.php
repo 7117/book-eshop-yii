@@ -1,7 +1,9 @@
 <?php
 namespace app\common\components;
 
-use yii\base\Controller;
+use Yii;
+//use yii\base\Controller;
+use yii\web\Controller;
 
 class BaseWebController extends Controller {
 
@@ -25,7 +27,7 @@ class BaseWebController extends Controller {
     }
 
     public function getCookie($name,$default_val=''){
-        $cookies = Yii::$app->request->cookies();
+        $cookies = Yii::$app->request->cookies;
         return $cookies->getValue($name,$default_val);
     }
 
@@ -43,5 +45,9 @@ class BaseWebController extends Controller {
             "data" => $data,
             "req_id" => uniqid()
         ]);
+    }
+
+    public function renderJs($msg,$url){
+        return $this->renderPartial("@app/views/common/js",['msg' => $msg,'url' => $url]);
     }
 }
