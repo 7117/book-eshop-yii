@@ -1,6 +1,7 @@
 <?php
 namespace app\common\services;
 
+use Yii;
 use yii\helpers\Url;
 
 class UrlService {
