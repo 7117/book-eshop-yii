@@ -1,3 +1,7 @@
+<?php
+use app\common\services\UrlService;
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +14,8 @@
     <div class="container">
         <div class="navbar-collapse collapse pull-left">
             <ul class="nav navbar-nav ">
-                <li><a href="http://ebk.ebk.ebk/">首页</a></li>
-                <li><a href="http://ebk.ebk.ebk/web/user/login">后台</a></li>
+                <li><a href="<?=UrlService::buildMUrl("")?>">前台</a></li>
+                <li><a href="<?=UrlService::buildWebUrl('/user/login')?>">后台</a></li>
             </ul>
         </div>
     </div>

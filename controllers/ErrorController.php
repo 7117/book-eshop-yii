@@ -4,9 +4,10 @@ namespace app\controllers;
 
 use Yii;
 use yii\log\FileTarget;
-use yii\web\Controller;
+use app\common\services\AppLogService;
+use app\modules\web\controllers\common\BaseController;
 
-class ErrorController extends Controller
+class ErrorController extends BaseController
 {
     public function actionError(){
         $request=Yii::$app->request;
@@ -43,6 +44,9 @@ class ErrorController extends Controller
             ];
 
             $log->export();
+
+            //save to DB
+            AppLogService::addErrorLog(Yii::$app->id,$err_msg);
         }
 
         return '错误提示：<br><br>'.$err_msg;

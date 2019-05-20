@@ -1,3 +1,6 @@
+<?php
+Yii::$app->getView()->registerJsFile("/js/web/user/edit.js",['depends' => app\assets\WebAsset::className()]);
+?>
 <div class="row  border-bottom">
     <div class="col-lg-12">
         <div class="tab_title">
@@ -18,7 +21,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">手机:</label>
                 <div class="col-lg-10">
-                    <input type="text" name="mobile" class="form-control" placeholder="请输入手机"  readonly value="11012345679">
+                    <input type="text" name="mobile" class="form-control" placeholder="请输入手机"  readonly value="<?=$user_info['mobile']?>">
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -26,7 +29,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">姓名:</label>
                 <div class="col-lg-10">
-                    <input type="text" name="nickname" class="form-control" placeholder="请输入姓名~~" value="孙潇">
+                    <input type="text" name="nickname" class="form-control" placeholder="请输入姓名" value="<?=$user_info['nickname']?>">
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -34,7 +37,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">邮箱:</label>
                 <div class="col-lg-10">
-                    <input type="text" name="email" class="form-control" placeholder="请输入邮箱" value="18701558590@139.com">
+                    <input type="text" name="email" class="form-control" placeholder="请输入邮箱" value="<?=$user_info['email']?>">
                 </div>
             </div>
             <div class="hr-line-dashed"></div>

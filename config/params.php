@@ -1,5 +1,9 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
+    "domain" => [
+        'www' => 'http://ebk.ebk.ebk',
+        'm' => 'http://ebk.ebk.ebk/m',
+        'web' => 'http://ebk.ebk.ebk/web',
+    ],
 ];
