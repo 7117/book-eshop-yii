@@ -47,13 +47,35 @@ class UserController extends BaseController
     }
 
     public function actionLogout(){
-        $this->removeCookie("ebook");
+        $this->removeCookie($this->auth_cookie_name);
         return $this->redirect(UrlService::buildWebUrl("/user/login"));
     }
 
     public function actionEdit()
     {
-        return $this->render('edit');
+        if(Yii::$app->request->isGet){
+            return $this->render("edit",['user_info' => $this->current_user]);
+        }
+
+        $nickname = trim($this->post("nickname",""));
+        $email = trim($this->post("email",""));
+
+        if (mb_strlen($nickname,"utf-8") <1 ) {
+            return $this->renderJSON([],"请输入合法姓名",-1);
+        }
+
+        if (mb_strlen($email,"utf-8") < 1 ) {
+            return $this->renderJSON([],"请输入合法邮箱",-1);
+        }
+
+        $user_info = $this->current_user;
+        $user_info->nickname = $nickname;
+        $user_info->email = $email;
+        $user_info->updated_time = date("Y-m-d H:i:s");
+
+        $user_info->update(0);
+
+        return $this->renderJSON([],$msg="操作成功");
     }
 
     public function actionResetPwd()

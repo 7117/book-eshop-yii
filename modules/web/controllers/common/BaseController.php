@@ -10,6 +10,7 @@ use app\common\services\UrlService;
 class BaseController extends BaseWebController
 {
     protected $auth_cookie_name = "ebook";
+    public $current_user = null;
 
     public $allowAllAction = [
         "web/user/login"
@@ -69,6 +70,8 @@ class BaseController extends BaseWebController
         if($auth_token_md5 != $auth_token){
             return false;
         }
+
+        $this->current_user = $user_info;
 
         return true;
 

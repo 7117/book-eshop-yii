@@ -2,7 +2,6 @@
 namespace app\common\components;
 
 use Yii;
-//use yii\base\Controller;
 use yii\web\Controller;
 
 class BaseWebController extends Controller {
@@ -36,15 +35,18 @@ class BaseWebController extends Controller {
         $cookies->remove($name);
     }
 
-    public function renderJson($data = [],$msg = 'ok',$code = 200){
-        header("Content-type:application/json");
+    protected function renderJSON($data=[], $msg ="ok", $code = 200)
+    {
+        header('Content-type: application/json');
 
-        echo json_encode([
+        print_r(json_encode([
             "code" => $code,
-            "msg" => $msg,
-            "data" => $data,
-            "req_id" => uniqid()
-        ]);
+            "msg"   =>  $msg,
+            "data"  =>  $data,
+            "req_id" =>  uniqid()
+        ]));
+
+        return Yii::$app->end();
     }
 
     public function renderJs($msg,$url){
