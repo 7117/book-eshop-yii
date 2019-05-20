@@ -9,6 +9,8 @@ $(document).ready(function()
             return false;
         }
 
+        button.addClass("disabled");
+
         var nickname = $('.user_edit_wrap [name="nickname"]').val();
         var email = $('.user_edit_wrap [name="email"]').val();
 
@@ -22,7 +24,6 @@ $(document).ready(function()
             return false;
         }
 
-        button.addClass("disabled");
 
         $.ajax({
             url:'/web/user/edit',

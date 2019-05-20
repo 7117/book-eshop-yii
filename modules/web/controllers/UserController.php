@@ -75,11 +75,45 @@ class UserController extends BaseController
 
         $user_info->update(0);
 
+        $this->setLoginStatus($user_info);
+
         return $this->renderJSON([],$msg="操作成功");
     }
 
     public function actionResetPwd()
     {
-        return $this->render('reset_pwd');
+        if(Yii::$app->request->isGet){
+            return $this->render('reset_pwd',['user_info' => $this->current_user]);
+        }
+
+        $old_password = trim($this->post("old_password"));
+        $new_password = trim($this->post("new_password"));
+
+        if (mb_strlen($old_password,"utf-8") <1 ){
+            return $this->renderJSON([],"请输入原密码",-1);
+        }
+
+        if (mb_strlen($new_password,"utf-8") <1 ){
+            return $this->renderJSON([],"请输入新密码",-1);
+        }
+
+        if ($old_password == $new_password) {
+            return $this->renderJSON([],"新密码与原密码相同,不能重置",-1);
+        }
+
+        $user_info = $this->current_user;
+        $auth_pwd = md5($old_password.md5($user_info['login_salt']));
+        if ($auth_pwd != $user_info['login_pwd']) {
+            return $this->renderJSON([],"原密码不正确",-1);
+        }
+
+        $user_info->login_pwd = md5($new_password.md5($user_info['login_salt']));
+        $user_info->updated_time = date("Y-m-d H:i:s");
+
+        $user_info->update();
+
+        return $this->renderJSON([],"重置成功",200);
+
+
     }
 }
