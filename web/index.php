@@ -9,4 +9,11 @@ require __DIR__ . '/../vendor/yiisoft/yii2/Yii.php';
 
 $config = require __DIR__ . '/../config/web.php';
 
+//版本控制
+if(file_exists("../version")){
+    define("VERSION",trim(file_get_contents("../version")));
+}else{
+    define("VERSION",date("Y-M-D H:i:s"));
+}
+
 (new yii\web\Application($config))->run();

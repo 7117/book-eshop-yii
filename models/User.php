@@ -2,103 +2,82 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property string $uid 用户uid
+ * @property string $nickname 用户名
+ * @property string $mobile 手机号码
+ * @property string $email 邮箱地址
+ * @property int $sex 1：男 2：女 0：没填写
+ * @property string $avatar 头像
+ * @property string $login_name 登录用户名
+ * @property string $login_pwd 登录密码
+ * @property string $login_salt 登录密码的随机加密秘钥
+ * @property int $status 1：有效 0：无效
+ * @property string $updated_time 最后一次更新时间
+ * @property string $created_time 插入时间
+ */
+class User extends \yii\db\ActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return [
+            [['sex', 'status'], 'integer'],
+            [['updated_time', 'created_time'], 'safe'],
+            [['nickname', 'email'], 'string', 'max' => 100],
+            [['mobile', 'login_name'], 'string', 'max' => 20],
+            [['avatar'], 'string', 'max' => 64],
+            [['login_pwd', 'login_salt'], 'string', 'max' => 32],
+            [['login_name'], 'unique'],
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function attributeLabels()
     {
-        return $this->id;
+        return [
+            'uid' => 'Uid',
+            'nickname' => 'Nickname',
+            'mobile' => 'Mobile',
+            'email' => 'Email',
+            'sex' => 'Sex',
+            'avatar' => 'Avatar',
+            'login_name' => 'Login Name',
+            'login_pwd' => 'Login Pwd',
+            'login_salt' => 'Login Salt',
+            'status' => 'Status',
+            'updated_time' => 'Updated Time',
+            'created_time' => 'Created Time',
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
+    public function getSaltPassword( $password )
     {
-        return $this->authKey;
+        return md5($password.md5( $this->login_salt ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
+    public function verifyPassword( $password ){
+        return $this->getSaltPassword( $password ) == $this->login_pwd;
     }
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+    public function setPassword( $password ){
+        $this->login_pwd = $this->getSaltPassword( $password );
     }
+
 }
