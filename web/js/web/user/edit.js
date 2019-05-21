@@ -5,7 +5,7 @@ $(document).ready(function()
         var button = $(this);
 
         if (button.hasClass("disabled")) {
-            alert("请勿重复点击");
+            common_ops.alert("请勿重复点击");
             return false;
         }
 
@@ -15,15 +15,14 @@ $(document).ready(function()
         var email = $('.user_edit_wrap [name="email"]').val();
 
         if(nickname.length < 1){
-            alert("请输入合法姓名");
+            common_ops.tip("请输入合法姓名",$('.user_edit_wrap [name="nickname"]'));
             return false;
         }
 
         if(email.length < 1){
-            alert("请输入合法邮箱");
+            common_ops.tip("请输入合法邮箱",$('.user_edit_wrap [name="email"]'));
             return false;
         }
-
 
         $.ajax({
             url:common_ops.buildWebUrl('/user/edit'),
@@ -34,10 +33,14 @@ $(document).ready(function()
             },
             dataType:'json',
             success:function (res) {
+                callback = null;
                 button.removeClass("disabled");
                 if(res.code == 200){
-                    alert(res.msg);
+                    callback = function () {
+                        window.location.reload();
+                    }
                 }
+                common_ops.alert(res.msg,callback);
             },
         });
     });

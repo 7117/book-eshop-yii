@@ -1,4 +1,3 @@
-;
 function SmoothlyMenu() {
     if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
         // Hide menu in order to smoothly turn on when maximize menu
@@ -129,34 +128,35 @@ var common_ops = {
         var domain = "http://" + window.location.hostname;
         return domain + upload_config[ bucket ] + "/" + img_key;
     },
-    alert:function( msg ,cb ){
+
+    alert:function( msg ,callback ){
         layer.alert( msg,{
             yes:function( index ){
-                if( typeof cb == "function" ){
-                    cb();
+                if( typeof callback == "function" ){
+                    callback();
+                    layer.close( index );
                 }
+            }
+        });
+    },
+
+    confirm:function( msg,callback ){
+        callback = ( callback != undefined )?callback: { 'ok':null, 'cancel':null };
+        layer.confirm( msg , {
+            btn: ['确定','取消']
+        }, function( index ){
+            if( typeof callback.ok == "function" ){
+                callback.ok();
+                layer.close( index );
+            }
+        }, function( index ){
+            if( typeof callback.cancel == "function" ){
+                callback.cancel();
                 layer.close( index );
             }
         });
     },
-    confirm:function( msg,callback ){
-        callback = ( callback != undefined )?callback: { 'ok':null, 'cancel':null };
-        layer.confirm( msg , {
-            btn: ['确定','取消'] //按钮
-        }, function( index ){
-            //确定事件
-            if( typeof callback.ok == "function" ){
-                callback.ok();
-            }
-            layer.close( index );
-        }, function( index ){
-            //取消事件
-            if( typeof callback.cancel == "function" ){
-                callback.cancel();
-            }
-            layer.close( index );
-        });
-    },
+
     tip:function( msg,target ){
         layer.tips( msg, target, {
             tips: [ 3, '#e5004f']
