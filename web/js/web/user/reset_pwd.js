@@ -23,7 +23,7 @@ $(document).ready(function(){
         }
 
         $.ajax({
-            url:'/web/user/reset-pwd',
+            url:common_ops.buildWebUrl('/user/reset-pwd'),
             type:'POST',
             data:{
                 old_password:old_password,

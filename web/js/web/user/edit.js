@@ -26,7 +26,7 @@ $(document).ready(function()
 
 
         $.ajax({
-            url:'/web/user/edit',
+            url:common_ops.buildWebUrl('/user/edit'),
             type:'POST',
             data:{
                 nickname:nickname,
