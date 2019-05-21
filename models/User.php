@@ -66,4 +66,18 @@ class User extends \yii\db\ActiveRecord
             'created_time' => 'Created Time',
         ];
     }
+
+    public function getSaltPassword( $password )
+    {
+        return md5($password.md5( $this->login_salt ));
+    }
+
+    public function verifyPassword( $password ){
+        return $this->getSaltPassword( $password ) == $this->login_pwd;
+    }
+
+    public function setPassword( $password ){
+        $this->login_pwd = $this->getSaltPassword( $password );
+    }
+
 }

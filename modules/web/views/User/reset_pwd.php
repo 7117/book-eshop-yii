@@ -1,21 +1,11 @@
 <?php
-    Yii::$app->getView()->registerJsFile("/js/web/user/reset_pwd.js",["depends" => app\assets\WebAsset::className()]);
+use  \app\common\services\StaticService;
+StaticService::includeAppJsStatic("/js/web/user/reset_pwd.js",['depends' => app\assets\WebAsset::className()]);
 ?>
 
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li  >
-                    <a href="/web/user/edit">信息编辑</a>
-                </li>
-                <li  class="current"  >
-                    <a href="/web/user/reset-pwd">修改密码</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div><div class="row m-t  user_reset_pwd_wrap">
+<?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_user.php",['current' => 'reset_pwd']);?>
+
+<div class="row m-t  user_reset_pwd_wrap">
     <div class="col-lg-12">
         <h2 class="text-center">修改密码</h2>
         <div class="form-horizontal m-t m-b">
