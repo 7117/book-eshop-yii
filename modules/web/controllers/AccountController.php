@@ -2,6 +2,7 @@
 
 namespace app\modules\web\controllers;
 
+use Yii;
 use app\models\User;
 use app\common\services\ConstantMapService;
 use app\modules\web\controllers\common\BaseController;
@@ -66,5 +67,41 @@ class AccountController extends BaseController
     public function actionInfo()
     {
         return $this->render('info');
+    }
+
+    public function actionOps()
+    {
+        if (!Yii::$app->request->isPost){
+            return $this->renderJson([],"系统忙",-1);
+        }
+
+        $uid = intval( $this->post("uid",0));
+        $act = trim( $this->post("act",""));
+        if (!$uid) {
+            return $this->renderJson([],"输入账号",-1);
+        }
+
+        if (!in_array($act,["remove","recover"])){
+            return $this->renderJson([],"操作有误",-1);
+        }
+
+        $user_info = User::find()->where(['uid' => $uid])->one();
+        if(!$user_info){
+            return $this->renderJson([],"无此账号",-1);
+        }
+
+        switch ($act) {
+            case "remove":
+                $user_info->status = 0;
+                break;
+            case "recover":
+                $user_info->status = 1;
+                break;
+        }
+
+        $user_info->updated_time = date("Y-m-d H:i:s");
+        $user_info->update();
+
+        return $this->renderJson([],"操作完成");
     }
 }
