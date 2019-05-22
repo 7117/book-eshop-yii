@@ -9,4 +9,6 @@ class ConstantMapService
         0 => '删除',
         1 =>'正常',
     ];
+
+    public static $default_avatar = "default_avatar";
 }

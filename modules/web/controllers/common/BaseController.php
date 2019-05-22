@@ -2,6 +2,7 @@
 
 namespace app\modules\web\controllers\common;
 
+use app\common\services\AppLogService;
 use Yii;
 use app\models\user;
 use app\common\components\BaseWebController;
@@ -38,6 +39,8 @@ class BaseController extends BaseWebController
             }
             return false;
         }
+
+        AppLogService::addAppAccessLog($this->current_user['uid']);
 
         return true;
 

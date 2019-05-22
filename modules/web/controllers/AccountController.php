@@ -2,6 +2,9 @@
 
 namespace app\modules\web\controllers;
 
+use app\common\services\AppLogService;
+use app\common\services\UrlService;
+use app\models\log\AppAccessLog;
 use Yii;
 use app\models\User;
 use app\common\services\ConstantMapService;
@@ -61,12 +64,76 @@ class AccountController extends BaseController
 
     public function actionSet()
     {
-        return $this->render('set');
+        if (Yii::$app->request->isGet){
+            return $this->render("set");
+        }
+
+        $nickname = trim($this->post("nickname",""));
+        $mobile = trim($this->post("mobile",""));
+        $email = trim($this->post("email",""));
+        $login_name = trim($this->post("login_name",""));
+        $login_pwd = trim($this->post("login_pwd",""));
+
+        if(mb_strlen($nickname,"utf-8") < 1 ){
+            return $this->renderJson([],"姓名不对",-1);
+        }
+        if(mb_strlen($mobile,"utf-8") < 1 ){
+            return $this->renderJson([],"手机不对",-1);
+        }
+        if(mb_strlen($email,"utf-8") < 1 ){
+            return $this->renderJson([],"邮箱不对",-1);
+        }
+        if(mb_strlen($login_name,"utf-8") < 1 ){
+            return $this->renderJson([],"登录名不对",-1);
+        }
+        if(mb_strlen($login_pwd,"utf-8") < 1 ){
+            return $this->renderJson([],"密码不对",-1);
+        }
+
+        $is_exist = User::find()->where(['login_name' => $login_name])->count();
+
+        if ($is_exist) {
+            return $this->renderJson([],"登录名已经存在",-1);
+        }
+
+        $user = new User();
+        $user->nickname = $nickname;
+        $user->mobile = $mobile;
+        $user->email = $email;
+        $user->avatar = ConstantMapService::$default_avatar;
+        $user->login_name = $login_name;
+        $user->login_pwd = $login_pwd;
+        $user->setSalt();
+        $user->setPassword($login_pwd);
+        $user->updated_time = date("Y-m-d H:i:s");
+        $user->created_time = date("Y-m-d H:i:s");
+
+        $user->save();
+
+        return $this->renderJson([],"操作成功");
     }
 
     public function actionInfo()
     {
-        return $this->render('info');
+        $id = intval($this->get("id",0));
+        $back_url = UrlService::buildNullUrl("/account/index");
+
+        if (!$id) {
+            return $this->redirect($back_url);
+        }
+
+        $user_info = User::find()->where(['uid'=>$id])->one();
+
+        if ( !$user_info ) {
+            return $this->redirect($back_url);
+        }
+
+        $access_list = AppAccessLog::find()->where(['uid' => $user_info['uid']])->orderBy(['id'=>SORT_DESC])->limit(10)->all();
+
+        return $this->render('info',[
+            'user_info' => $user_info,
+            'access_list' => $access_list
+        ]);
     }
 
     public function actionOps()

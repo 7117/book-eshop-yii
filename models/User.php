@@ -80,4 +80,15 @@ class User extends \yii\db\ActiveRecord
         $this->login_pwd = $this->getSaltPassword( $password );
     }
 
+    public function setSalt ($length = 16 )
+    {
+        $chars = 'abcdefghigklmnopqrstuvwxyz';
+        $salt = '';
+        for ($i = 0;$i < $length ; $i++) {
+            $salt.=$chars[mt_rand(0,strlen($chars)-1)];
+        }
+        $this->login_salt = $salt;
+
+    }
+
 }
