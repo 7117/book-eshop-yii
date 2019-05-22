@@ -7,7 +7,7 @@ use yii\helpers\Url;
 
 class UtilService {
 
-    public function getIP(){
+    public static function getIP(){
         if( !empty($_SERVER['HTTP_X_FORWARD_FOR'])){
             return $_SERVER['HTTP_X_FORWARD_FOR'];
         }

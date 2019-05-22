@@ -1,125 +1,103 @@
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li  class="current"  >
-                    <a href="/web/account/index">账户列表</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div><div class="row m-t">
-    <div class="col-lg-12">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="m-b-md">
-                    <a class="btn btn-outline btn-primary pull-right" href="/web/account/set?id=12">
-                        <i class="fa fa-pencil"></i>编辑
-                    </a>
-                    <h2>账户信息</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-2 text-center">
-                <img class="img-circle circle-border" src="/images/common/qrcode.jpg" width="100px" height="100px"/>
-            </div>
-            <div class="col-lg-10">
-                <p class="m-t">姓名：孙潇</p>
-                <p>手机：11012345679</p>
-                <p>邮箱：apanly@126.com</p>
-            </div>
-        </div>
-        <div class="row m-t">
-            <div class="col-lg-12">
-                <div class="panel blank-panel">
-                    <div class="panel-heading">
-                        <div class="panel-options">
-                            <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="javascript:void(0);" data-toggle="tab" aria-expanded="false">访问记录</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="tab-content">
-                            <div class="tab-pane active">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>访问时间</th>
-                                        <th>访问Url</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:14:09                                                </td>
-                                        <td>
-                                            /web/account/info?id=12                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:14:06                                                </td>
-                                        <td>
-                                            /web/account/index                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:12:01                                                </td>
-                                        <td>
-                                            /web/account/info?id=13                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:11:59                                                </td>
-                                        <td>
-                                            /web/account/index                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:11:54                                                </td>
-                                        <td>
-                                            /web/charts/finance                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:11:54                                                </td>
-                                        <td>
-                                            /web/charts/dashboard                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:11:54                                                </td>
-                                        <td>
-                                            /web/dashboard/index                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-04-09 13:11:53                                                </td>
-                                        <td>
-                                            /web/                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-03-26 23:23:20                                                </td>
-                                        <td>
-                                            /web/book/images                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            2017-03-26 23:22:24                                                </td>
-                                        <td>
-                                            /web/book/images                                            </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+<?php
+use app\common\services\UrlService;
+use app\common\services\ConstantMapService;
+use \app\common\services\StaticService;
 
-                            </div>
-                        </div>
+StaticService::includeAppJsStatic("/js/web/account/index.js",['depends' => app\assets\WebAsset::className()]);
+?>
+
+<?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_account.php",['current' => 'index']);?>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form-inline wrap_search">
+            <div class="row m-t p-w-m">
+                <div class="form-group">
+                    <select name="status" class="form-control inline">
+                        <option value="<?=ConstantMapService::$status_default?>">请选择状态</option>
+                        <?php foreach($status_mapping as $_status =>$_title):?>
+                            <option value="<?=$_status?>"  ><?=$_title?></option>
+                        <?php endforeach;?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" name="mix_kw" placeholder="请输入姓名或者手机号码" class="form-control" value="">
+                        <input type="hidden" name="p" value="1">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary search">
+                                <i class="fa fa-search"></i>搜索
+                            </button>
+                        </span>
                     </div>
                 </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right" href="/web/account/set">
+                        <i class="fa fa-plus"></i>账号
+                    </a>
+                </div>
+            </div>
+        </form>
+        <table class="table table-bordered m-t">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>手机</th>
+                <th>邮箱</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($list as $_item):?>
+                <tr>
+                    <td><?=$_item['uid']?></td>
+                    <td><?=$_item['nickname']?></td>
+                    <td><?=$_item['mobile']?></td>
+                    <td><?=$_item['email']?></td>
+                    <td>
+                        <a  href="<?=UrlService::buildWebUrl("/account/info",['id' => $_item['uid']])?>">
+                            <i class="fa fa-eye fa-lg"></i>
+                        </a>
+                        <a class="m-l" href="<?=UrlService::buildWebUrl("/account/set",['id' => $_item['uid']])?>">
+                            <i class="fa fa-edit fa-lg"></i>
+                        </a>
+
+                        <?php if($_item['status']):?>
+                            <a class="m-l remove" href="javascript:void(0);" data="<?=$_item['uid']?>">
+                                <i class="fa fa-trash fa-lg"></i>
+                            </a>
+                        <?php else:?>
+                            <a class="m-l recover" href="javascript:void(0);" data="<?=$_item['uid']?>">
+                                <!--fontawesome-->
+                                <i class="fa fa-rotate-left fa-lg"></i>
+                            </a>
+                        <?php endif;?>
+                    </td>
+                </tr>
+            <?php endforeach;?>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <span class="pagination_count" style="line-height: 40px;">共<?=$pages['total_count']?>条记录 | 每页<?=$pages['page_size']?>条</span>
+                <ul class="pagination pagination-lg pull-right" style="margin: 0 0 ;">
+                    <?php for ($_page=1;$_page<=$pages['total_page'];$_page++):?>
+                        <?php if($_page == $pages['p']):?>
+                            <li class="active">
+                                <a href="<?=UrlService::buildNullUrl()?>"><?=$_page?></a>
+                            </li>
+                        <?php else:?>
+                            <li>
+                                <a href="<?=UrlService::buildWebUrl("/account/index",['p' => $_page])?>"><?=$_page?></a>
+                            </li>
+                        <?php endif;?>
+                    <?php endfor;?>
+                </ul>
             </div>
         </div>
     </div>

@@ -1,14 +1,12 @@
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li  class="current"  >
-                    <a href="/web/account/index">账户列表</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+<?php
+use \app\common\services\StaticService;
+
+StaticService::includeAppJsStatic("/js/web/account/set.js",['depends' => app\assets\WebAsset::className()]);
+?>
+
+<?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_account.php",['current' => 'index']);?>
+
+
 <div class="row m-t  wrap_account_set">
     <div class="col-lg-12">
         <h2 class="text-center">账号设置</h2>
