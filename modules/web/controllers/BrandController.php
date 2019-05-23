@@ -2,6 +2,8 @@
 
 namespace app\modules\web\controllers;
 
+use app\common\services\ConstantMapService;
+use app\models\brand\BrandImages;
 use Yii;
 use app\models\brand\BrandSetting;
 use app\modules\web\controllers\common\BaseController;
@@ -13,7 +15,6 @@ class BrandController extends BaseController
         $this->layout="main";
     }
 
-    //展示
     public function actionInfo()
     {
         $info = BrandSetting::find()->one();
@@ -21,7 +22,6 @@ class BrandController extends BaseController
         return $this->render("info",["info" => $info]);
     }
 
-    // 编辑
     public function actionSet()
     {
         if ( Yii::$app->request->isGet ) {
@@ -77,9 +77,57 @@ class BrandController extends BaseController
 
     }
 
-    //图片
     public function actionImages()
     {
-        return $this->render('images');
+        $list = BrandImages::find()->orderBy(['id' => SORT_DESC])->all();
+
+        return $this->render('images',[
+            'list' => $list
+        ]);
     }
+
+    public function actionSetImage()
+    {
+        $image_key = trim( $this->post("image_key","") );
+
+        if ( !$image_key ) {
+            return $this->renderJSON([],"请上传图片",-1);
+        }
+
+        $total_count = BrandImages::find()->count();
+
+        if ( $total_count >= 5 ) {
+            return $this->renderJSON([],"最多五张",-1);
+        }
+
+        $model = new BrandImages();
+        $model->image_key = $image_key;
+        $model->created_time = date("Y-m-d H:i:s");
+        $model->save();
+
+        return $this->renderJSON([],"操作成功",200);
+
+    }
+
+    public function actionImageOps()
+    {
+        $id = $this->post('id',[]);
+
+        if( !$id ) {
+            return $this->renderJSON([],"选择要删除的图片",-1);
+        }
+
+        $info = BrandImages::find()->where(['id' => $id])->one();
+
+        if ( !$info ) {
+            return $this->renderJSON([],"图片不存在",-1);
+        }
+
+        $info->delete();
+
+        return $this->renderJSON([],"删除完成",200);
+
+    }
+
+
 }

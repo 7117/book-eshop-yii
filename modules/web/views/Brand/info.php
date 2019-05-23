@@ -3,20 +3,9 @@ use app\common\services\UrlService;
 use app\common\services\UtilService;
 ?>
 
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li  class="current"  >
-                    <a href="<?=UrlService::buildWebUrl("/brand/info")?>">品牌信息</a>
-                </li>
-                <li  >
-                    <a href="<?=UrlService::buildWebUrl("/brand/images")?>">品牌相册</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div><div class="row m-t">
+<?php echo Yii::$app->view->renderFile("@app/modules/web/views/common/tab_brand.php",[ 'current' => 'info' ]);?>
+
+<div class="row m-t">
     <div class="col-lg-9 col-lg-offset-2 m-t">
         <dl class="dl-horizontal">
             <dt>品牌名称</dt>

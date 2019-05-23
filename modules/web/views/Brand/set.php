@@ -5,21 +5,7 @@ use app\common\services\UrlService;
 
 StaticService::includeAppJsStatic("/js/web/brand/set.js",['depends' => \app\assets\WebAsset::className()]);
 ?>
-
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li  class="current"  >
-                    <a href="/web/brand/info">品牌信息</a>
-                </li>
-                <li  >
-                    <a href="/web/brand/images">品牌相册</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+<?php echo Yii::$app->view->renderFile("@app/modules/web/views/common/tab_brand.php",[ 'current' => 'info' ]);?>
 
 <div class="row m-t  wrap_brand_set">
     <div class="col-lg-12">
