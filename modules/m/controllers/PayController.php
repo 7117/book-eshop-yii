@@ -2,18 +2,10 @@
 
 namespace app\modules\m\controllers;
 
-use yii\web\Controller;
+use app\modules\m\controllers\common\BaseController;
 
-/**
- * Default controller for the `m` module
- */
-class PayController extends Controller
+class PayController extends BaseController
 {
-    public function __construct($id,$module,array $config=[]){
-        parent::__construct($id,$module,$config);
-        $this->layout="main";
-    }
-
     public function actionBuy ()
     {
         return $this->render('buy');

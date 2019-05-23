@@ -2,18 +2,10 @@
 
 namespace app\modules\m\controllers;
 
-use yii\web\Controller;
+use app\modules\m\controllers\common\BaseController;
 
-/**
- * Default controller for the `m` module
- */
-class UserController extends Controller
+class UserController extends BaseController
 {
-    public function __construct($id,$module,array $config=[]){
-        parent::__construct($id,$module,$config);
-        $this->layout="main";
-    }
-
     public function actionIndex ()
     {
         return $this->render('index');

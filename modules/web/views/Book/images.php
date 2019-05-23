@@ -6,7 +6,8 @@ StaticService::includeAppJsStatic("/js/web/brand/image.js",\app\assets\WebAsset:
 
 ?>
 
-<?php echo Yii::$app->view->renderFile("@app/modules/web/views/common/tab_brand.php",[ 'current' => 'images' ]);?>
+<?php echo Yii::$app->view->renderFile("@app/modules/web/views/common/tab_book.php",[ 'current' => 'images' ]);?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="row m-t">
