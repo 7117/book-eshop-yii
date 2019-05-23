@@ -1,9 +1,8 @@
 <?php
 namespace app\common\services;
 
-use app\models\log\AppLog;
 use Yii;
-use yii\helpers\Url;
+use yii\helpers\Html;
 
 class UtilService {
 
@@ -13,4 +12,13 @@ class UtilService {
         }
         return $_SERVER['REMOTE_ADDR'];
     }
+
+    public static function encode( $display ){
+        return Html::encode($display);
+    }
+
+    public static function getRootPath(){
+        return dirname(Yii::$app->vendorPath);
+    }
+
 }
