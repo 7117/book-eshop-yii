@@ -27,4 +27,11 @@ class UrlService {
         return "javascript:void(0);";
     }
 
+    public static function buildPicUrl( $bucket , $image_key  ){
+        $domain_config = Yii::$app->params['domain'];
+        $upload_config = Yii::$app->params['upload'];
+
+        return $domain_config['www'].'/'.$upload_config[ $bucket ]."/".$image_key;
+    }
+
 }

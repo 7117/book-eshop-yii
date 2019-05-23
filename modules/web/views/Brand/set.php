@@ -1,6 +1,7 @@
 <?php
 use app\common\services\StaticService;
 use app\common\services\UtilService;
+use app\common\services\UrlService;
 
 StaticService::includeAppJsStatic("/js/web/brand/set.js",['depends' => \app\assets\WebAsset::className()]);
 ?>
@@ -18,7 +19,9 @@ StaticService::includeAppJsStatic("/js/web/brand/set.js",['depends' => \app\asse
             </ul>
         </div>
     </div>
-</div><div class="row m-t  wrap_brand_set">
+</div>
+
+<div class="row m-t  wrap_brand_set">
     <div class="col-lg-12">
         <h2 class="text-center">品牌设置</h2>
         <div class="form-horizontal m-t m-b">
@@ -32,16 +35,25 @@ StaticService::includeAppJsStatic("/js/web/brand/set.js",['depends' => \app\asse
             <div class="form-group">
                 <label class="col-lg-2 control-label">品牌Logo:</label>
                 <div class="col-lg-10">
-                    <form class="upload_pic_wrap" target="upload_file" enctype="multipart/form-data" method="POST" action="/web/upload/pic">
+                    <form class="upload_pic_wrap" target="upload_file"
+                          enctype="multipart/form-data" method="POST"
+                          action="<?=UrlService::buildWebUrl("/upload/pic")?>">
                         <div class="upload_wrap pull-left">
                             <i class="fa fa-upload fa-2x"></i>
                             <input type="hidden" name="bucket" value="brand" />
                             <input type="file" name="pic" accept="image/png, image/jpeg, image/jpg,image/gif">
                         </div>
+
+                        <?php if ( $info ):?>
                         <span class="pic-each">
-							<img src="/uploads/brand/20170301/a8887738ab1bfd71765dd063fee4ddaa.jpg">
-							<span class="fa fa-times-circle del del_image" data="20170301/a8887738ab1bfd71765dd063fee4ddaa.jpg"><i></i></span>
+							<img src="<?=UrlService::buildPicUrl('brand',$info['logo'])?>">
+							<span class="fa fa-times-circle del del_image" data="<?=UrlService::buildPicUrl('brand',$info['logo'])?>">
+                                <i>
+
+                                </i>
+                            </span>
 						</span>
+                        <?php endif;?>
                     </form>
                 </div>
             </div>
@@ -75,3 +87,7 @@ StaticService::includeAppJsStatic("/js/web/brand/set.js",['depends' => \app\asse
         </div>
     </div>
 </div>
+
+<iframe class="hide" name="upload_file" >
+
+</iframe>

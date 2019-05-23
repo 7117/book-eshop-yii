@@ -1,4 +1,24 @@
 $(document).ready(function () {
+    upload = {
+        error : function(msg){
+            common_ops.alert( msg );
+        },
+        success : function (image_key) {
+            var html =
+                '<img src="'+common_ops.buildPicUrl('brand',image_key)+'">' +
+                '<span class="fa fa-times-circle del del_image" data="'+image_key+'">' +
+                     '<i></i>' +
+                '</span>';
+
+            if ($(".upload_pic_wrap .pic-each").size() > 0 ){
+                $(".upload_pic_wrap .pic-each").html(html);
+            } else {
+                $(".upload_pic_wrap ").append( '<span class="pic-each">'+ html + '</span>');
+
+            }
+        }
+    }
+
     $(".save").click(function () {
 
         var button = $(this);
@@ -12,6 +32,7 @@ $(document).ready(function () {
         var mobile =  $('input[name="mobile"]').val();
         var address =  $('input[name="address"]').val();
         var description =  $('textarea[name="description"]').val();
+        var image_key =  $('.del_image').attr("data");
 
         if (name.length < 1 ){
             common_ops.tip("名字错误",$('input[name="name"]'));
@@ -33,10 +54,16 @@ $(document).ready(function () {
             return;
         }
 
+        if (image_key.length < 1 ){
+            common_ops.alert("请上传LOGO");
+            return;
+        }
+
         button.addClass("disabled");
 
         var data = {
           name:name,
+          image_key:image_key,
           mobile:mobile,
           address:address,
           description:description
@@ -60,4 +87,12 @@ $(document).ready(function () {
         })
 
     })
-})
+
+    $(".upload_pic_wrap input[name=pic]").change(function(){
+        $(".upload_pic_wrap").submit();
+    })
+
+    $(".del_image").unbind().click( function(){
+        $(this).parent().remove()
+    } )
+});

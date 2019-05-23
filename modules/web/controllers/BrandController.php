@@ -6,9 +6,6 @@ use Yii;
 use app\models\brand\BrandSetting;
 use app\modules\web\controllers\common\BaseController;
 
-/**
- * Default controller for the `web` module
- */
 class BrandController extends BaseController
 {
     public function __construct($id,$module,array $config=[]){
@@ -16,6 +13,7 @@ class BrandController extends BaseController
         $this->layout="main";
     }
 
+    //展示
     public function actionInfo()
     {
         $info = BrandSetting::find()->one();
@@ -27,12 +25,12 @@ class BrandController extends BaseController
     public function actionSet()
     {
         if ( Yii::$app->request->isGet ) {
-            var_dump("ssss");
             $info =BrandSetting::find()->one();
             return $this->render('set',['info' => $info ]);
         }
 
         $name = trim($this->post("name",""));
+        $image_key = trim($this->post("image_key",""));
         $mobile = trim($this->post("mobile",""));
         $address = trim($this->post("address",""));
         $description = trim($this->post("description",""));
@@ -40,6 +38,10 @@ class BrandController extends BaseController
 
         if (mb_strlen($name,"utf-8") < 1 ) {
             return $this->renderJson([],"名字错误",-1);
+        }
+
+        if (mb_strlen($image_key,"utf-8") < 1 ) {
+            return $this->renderJson([],"图片错误",-1);
         }
 
         if (mb_strlen($mobile,"utf-8") < 1 ) {
@@ -62,7 +64,9 @@ class BrandController extends BaseController
             $brand = new BrandSetting();
             $brand ->created_time = $date;
         }
+
         $brand->name = $name;
+        $brand->logo = $image_key;
         $brand->mobile = $mobile;
         $brand->address = $address;
         $brand->description = $description;
@@ -73,6 +77,7 @@ class BrandController extends BaseController
 
     }
 
+    //图片
     public function actionImages()
     {
         return $this->render('images');
