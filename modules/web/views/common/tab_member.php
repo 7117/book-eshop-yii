@@ -2,13 +2,13 @@
 use app\common\services\UrlService;
 
 $tab_list = [
-    "info" => [
-        "title" => "品牌信息",
-        "url" => '/brand/info'
+    "index" => [
+        "title" => "会员列表",
+        "url" => '/member/index'
     ],
-    'images' => [
-        'title' => "品牌相册",
-        'url' => '/brand/images'
+    'comment' => [
+        'title' => "会员评论",
+        'url' => '/member/comment'
     ]
 ];
 ?>

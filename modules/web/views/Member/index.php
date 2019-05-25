@@ -1,20 +1,12 @@
 <?php
 use app\common\services\UrlService;
+use app\common\services\StaticService;
+
+StaticService::includeAppJsStatic("/js/web/member/index.js",["depends" => \app\assets\WebAsset::className()]);
 ?>
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li  class="current"  >
-                    <a href="/web/member/index">会员列表</a>
-                </li>
-                <li  >
-                    <a href="/web/member/comment">会员评论</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+
+<?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_member.php",['current' => 'index']);?>
+
 <div class="row">
     <div class="col-lg-12">
         <form class="form-inline wrap_search">
@@ -75,11 +67,11 @@ use app\common\services\UrlService;
                                 <i class="fa fa-edit fa-lg"></i>
                             </a>
 
-                            <a class="m-l remove" href="javascript:void(0);" data="1">
+                            <a class="m-l remove" href="javascript:void(0);" data="<?=$value['id']?>">
                                 <i class="fa fa-trash fa-lg"></i>
                             </a>
                         <?php else:?>
-                            <a class="m-l recover" href="<?=UrlService::buildNullUrl();?>" data="<?=$_item['id'];?>">
+                            <a class="m-l recover" href="<?=UrlService::buildNullUrl();?>" data="<?=$value['id'];?>">
                                 <i class="fa fa-rotate-left fa-lg"></i>
                             </a>
                         <?php endif;?>
@@ -90,9 +82,10 @@ use app\common\services\UrlService;
             </tbody>
         </table>
 
-        <?php echo \Yii::$app->view->renderFile("@app/modules/web/views/common/page.php", [
-            'pages' => $pages,
-            'url' => '/member/index'
-        ]); ?>
+        <?php echo Yii::$app->getView()->renderFile("@app/modules/web/views/common/page.php",[
+                'pages' => $pages,
+                'url'  => '/member/index'
+        ]);?>
+
     </div>
 </div>

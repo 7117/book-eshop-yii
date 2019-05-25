@@ -1,22 +1,15 @@
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li  class="current"  >
-                    <a href="/web/member/index">会员列表</a>
-                </li>
-                <li  >
-                    <a href="/web/member/comment">会员评论</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div><div class="row m-t">
+<?php
+use app\common\services\UrlService;
+?>
+<?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_member.php",['current' => 'info']);?>
+
+
+<div class="row m-t">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
                 <div class="m-b-md">
-                    <a class="btn btn-outline btn-primary pull-right" href="/web/member/set?id=1">编辑</a>
+                    <a class="btn btn-outline btn-primary pull-right" href="<?php echo UrlService::buildWebUrl("/member/set",['id' => $info['id']]);?>">编辑</a>
                     <h2>会员信息</h2>
                 </div>
             </div>
@@ -27,9 +20,9 @@
             </div>
             <div class="col-lg-9">
                 <dl class="dl-horizontal">
-                    <dt>姓名：</dt> <dd>孙潇</dd>
-                    <dt>手机：</dt> <dd>12312312312</dd>
-                    <dt>性别：</dt> <dd>未填写</dd>
+                    <dt>姓名：</dt> <dd><?=$info['nickname']?></dd>
+                    <dt>手机：</dt> <dd><?=$info['mobile']?></dd>
+                    <dt>性别：</dt> <dd><?=$info['sex']?></dd>
                 </dl>
             </div>
         </div>
