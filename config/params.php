@@ -2,9 +2,9 @@
 
 return [
     "domain" => [
-        'www' => 'http://cba.free.idcfengye.com/',
-        'm' => 'http://cba.free.idcfengye.com/m',
-        'web' => 'http://cba.free.idcfengye.com/web',
+        'www' => 'http://ebk.ebk.ebk/',
+        'm' => 'http://ebk.ebk.ebk/m',
+        'web' => 'http://ebk.ebk.ebk/web',
     ],
 
     "upload" => [
