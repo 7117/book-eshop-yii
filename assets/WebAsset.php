@@ -16,5 +16,6 @@ class WebAsset extends AssetBundle
         "plugins/jquery-2.1.1.js",
         "js/web/bootstrap.min.js",
         "js/web/common.js",
+        "plugins/layer/layer.js",
     ];
 }
