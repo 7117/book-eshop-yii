@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => '微信图书商城',
     "domain" => [
         'www' => 'http://ebk.ebk.ebk/',
         'm' => 'http://ebk.ebk.ebk/m',
