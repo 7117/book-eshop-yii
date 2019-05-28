@@ -13,7 +13,8 @@ $tab_list = [
     'images' => [
         'title' => "图书资源",
         'url' => '/book/images'
-    ]
+    ],
+
 
 ];
 ?>

@@ -1,3 +1,10 @@
+<?php
+use app\common\services\StaticService;
+use app\common\services\UrlService;
+StaticService::includeAppJsStatic("/js/web/book/cat.js",['depends' => \app\assets\WebAsset::className()]);
+
+?>
+
 <?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_book.php",['current' => 'cat']);?>
 
 <div class="row">
@@ -7,8 +14,9 @@
                 <div class="form-group">
                     <select name="status" class="form-control inline">
                         <option value="-1">请选择状态</option>
-                        <option value="1"  >正常</option>
-                        <option value="0"  >已删除</option>
+                        <?php foreach($status_mapping as $k => $v ) :?>
+                            <option value="<?=$k?>"><?=$v?></option>
+                        <?php endforeach;?>
                     </select>
                 </div>
             </div>
@@ -33,32 +41,32 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>政治类</td>
-                <td>已删除</td>
-                <td>4</td>
-                <td>
-                    <a class="m-l recover" href="javascript:void(0);" data="1">
-                        <i class="fa fa-rotate-left fa-lg"></i>
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>互联网</td>
-                <td>正常</td>
-                <td>1</td>
-                <td>
-                    <a class="m-l" href="/web/book/cat_set?id=2">
-                        <i class="fa fa-edit fa-lg"></i>
-                    </a>
+            <?php foreach($list as $k=>$v ):?>
+                <tr>
+                    <td><?=$v['id']?></td>
+                    <td><?=$v['name']?></td>
+                    <td><?=$status_mapping[$v['status']]?></td>
+                    <td><?=$v['weight']?></td>
 
-                    <a class="m-l remove" href="javascript:void(0);" data="2">
-                        <i class="fa fa-trash fa-lg"></i>
-                    </a>
-                </td>
-            </tr>
+                    <td>
+                        <a class="m-l" href="<?=UrlService::buildWebUrl("/book/cat_set",['id' => $v['id']])?>">
+                            <i class="fa fa-edit fa-lg"></i>
+                        </a>
+
+                        <?php if($v['status']):?>
+                            <a class="m-l remove" href="javascript:void(0);" data="<?=$v['id']?>">
+                                <i class="fa fa-trash fa-lg"></i>
+                            </a>
+                        <?php else:?>
+                            <a class="m-l recover" href="javascript:void(0);" data="<?=$v['id']?>">
+                                <i class="fa fa-rotate-left fa-lg"></i>
+                            </a>
+                        <?php endif;?>
+                    </td>
+
+                </tr>
+            <?php endforeach;?>
+
             </tbody>
         </table>
     </div>
