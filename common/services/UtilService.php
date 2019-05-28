@@ -21,4 +21,12 @@ class UtilService {
         return dirname(Yii::$app->vendorPath);
     }
 
+    public static  function isWechat(){
+        $ug= isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'';
+        if( stripos($ug,'micromessenger') !== false ){
+            return true;
+        }
+        return false;
+    }
+
 }

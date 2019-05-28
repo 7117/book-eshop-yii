@@ -64,8 +64,7 @@ class BaseController extends BaseWebController
         }
 
         $user_info = User::find()->where(['uid' => $uid])->one();
-
-        if( !$user_info){
+        if( !$user_info) {
             return false;
         }
 

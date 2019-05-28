@@ -1,6 +1,10 @@
+<?php
+use \app\common\services\UrlService;
+?>
+
 <div class="col-md-6">
     <div class="ibox-content">
-        <form class="m-t" role="form" action="http://ebk.ebk.ebk/web/user/login" method="post">
+        <form class="m-t" role="form" action="<?php UrlService::buildWebUrl("/user/login")?>" method="post">
             <h2 class="font-bold text-center">管理后台</h2>
             <div class="form-group text-center">
             </div>

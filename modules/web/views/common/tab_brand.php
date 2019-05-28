@@ -18,11 +18,11 @@ $tab_list = [
 
             <ul class="nav nav-pills">
                 <?php foreach($tab_list as $_current => $_item):?>
-                <li  <?php if($current == $_current):?> class = "current" <?php endif;?> >
-                    <a href="<?=UrlService::buildWebUrl($_item['url'])?>">
-                        <?=$_item['title']?>
-                    </a>
-                </li>
+                    <li  <?php if($current == $_current):?> class = "current" <?php endif;?> >
+                        <a href="<?=UrlService::buildWebUrl($_item['url'])?>">
+                            <?=$_item['title']?>
+                        </a>
+                    </li>
                 <?php endforeach;?>
 
             </ul>
