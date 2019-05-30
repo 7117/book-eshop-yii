@@ -14,12 +14,14 @@ class RequestService extends  BaseService {
     public static function getAccessToken(){
         $date_now = date("Y-m-d H:i:s");
         $access_token_info = OauthAccessToken::find()->where([ '>','expired_time' , $date_now ])->limit(1)->one();
+
         if( $access_token_info ){
             return $access_token_info['access_token'];
         }
 
         $path = 'token?grant_type=client_credential&appid='.self::getAppId().'&secret='.self::getAppSecret();
         $res = self::send($path);
+
         if( !$res ){
             return self::_err( self::getLastErrorMsg() );
         }
@@ -28,7 +30,7 @@ class RequestService extends  BaseService {
         $model_access_token->access_token = $res['access_token'];
         $model_access_token->expired_time = date("Y-m-d H:i:s",$res['expires_in'] + time() - 200 );
         $model_access_token->created_time = $date_now;
-        $model_access_token->save( 0 );
+        $model_access_token->save();
         return $res['access_token'];
     }
 
