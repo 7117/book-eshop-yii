@@ -29,7 +29,8 @@ class BaseController extends BaseWebController {
 	public $special_AllowAction = [
 		'm/default/index',
 		'm/product/index',
-		'm/product/info'
+//		'm/product/info',
+		'weixin/menu/set',
 	];
 
 	public function __construct($id, $module, $config = []){
@@ -52,7 +53,7 @@ class BaseController extends BaseWebController {
 		}
 
 		if ( !$login_status  ) {
-			if( \Yii::$app->request->isAjax ){
+			if ( \Yii::$app->request->isAjax ) {
 				$this->renderJSON([],"未登录,系统将引导您重新登录~~",-302);
 			} else {
 				$redirect_url = UrlService::buildMUrl( "/user/bind" );
@@ -68,7 +69,6 @@ class BaseController extends BaseWebController {
 						    return false;
                         }
 					}else{
-
 						$redirect_url = UrlService::buildMUrl( "/oauth/login" );
 					}
 				}else{
