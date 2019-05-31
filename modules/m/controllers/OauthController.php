@@ -24,6 +24,7 @@ class OauthController extends BaseController {
         return $this->redirect( $url );
     }
 
+    // 获取code acceeetoken 进行拉取信息
     public function actionCallback(){
         $code = $this->get( "code","" );
         if( !$code ){
@@ -77,7 +78,6 @@ class OauthController extends BaseController {
         }else{
             $this->removeLoginStatus();
         }
-
         return $this->redirect( UrlService::buildMUrl( "/default/index" ) );
     }
 

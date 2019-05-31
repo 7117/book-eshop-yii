@@ -25,12 +25,11 @@ class BaseController extends BaseWebController {
 		'm/product/search',
 	];
 
-	//特殊url 如果在微信中,可以不用登录(但是必须要有openid)
+	//微信特殊url
 	public $special_AllowAction = [
 		'm/default/index',
 		'm/product/index',
-//		'm/product/info',
-		'weixin/menu/set',
+		'm/product/info',
 	];
 
 	public function __construct($id, $module, $config = []){
@@ -54,7 +53,7 @@ class BaseController extends BaseWebController {
 
 		if ( !$login_status  ) {
 			if ( \Yii::$app->request->isAjax ) {
-				$this->renderJSON([],"未登录,系统将引导您重新登录~~",-302);
+				$this->renderJSON([],"未登录,系统将引导您重新登录",-302);
 			} else {
 				$redirect_url = UrlService::buildMUrl( "/user/bind" );
 
@@ -134,6 +133,10 @@ class BaseController extends BaseWebController {
 
     public function geneAuthToken( $member_info ){
         return md5( $this->salt."-{$member_info['id']}-{$member_info['mobile']}-{$member_info['salt']}");
+    }
+
+    protected  function removeAuthToken(){
+        $this->removeCookie($this->auth_cookie_name);
     }
 
     protected  function removeLoginStatus(){

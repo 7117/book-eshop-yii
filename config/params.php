@@ -15,8 +15,8 @@ return [
         'book' => "/uploads/book",
     ],
     "weixin" => [
-        "appid" => 'wxe3004e8165bec0aa',
-        "sk" => 'acc975fdad728d7461164932ae0bbaa8',
+        "appid" => 'wxc01ba9b834be5023',
+        "sk" => 'eb11595ecf702380d1f080526fa8e189',
         "token" => 'tomalang689',
         "aeskey" => 'P6PaB6bPrRzKkva5lq6kHWtYkOOlVhYq4fh1iR7LMKB'
     ]

@@ -43,7 +43,14 @@ class DefaultController extends BaseWebController {
         }
 
         $model_sms = new SmsCaptcha();
-        $model_sms->geneCustomCaptcha( $mobile ,UtilService::getIP() );
+        $model_sms->mobile = $mobile;
+        $model_sms->ip = UtilService::getIP();
+        $model_sms->captcha = rand(10000,99999);
+        $model_sms->expires_at = date("Y-m-d H:i:s",time() + 60*10 );
+        $model_sms->created_time = date("Y-m-d H:i:s",time());
+        $model_sms->status = 0;
+        $model_sms->save(0);
+
         $this->removeCookie( $this->captcha_cookie_name );
         if( $model_sms ){
             return $this->renderJson( [],"发送成功".$model_sms->captcha );

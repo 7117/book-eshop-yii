@@ -26,6 +26,8 @@ class RequestService extends  BaseService {
             return self::_err( self::getLastErrorMsg() );
         }
 
+
+
         $model_access_token = new OauthAccessToken();
         $model_access_token->access_token = $res['access_token'];
         $model_access_token->expired_time = date("Y-m-d H:i:s",$res['expires_in'] + time() - 200 );
