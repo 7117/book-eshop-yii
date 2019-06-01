@@ -3,21 +3,21 @@ namespace app\modules\weixin\controllers;
 
 use app\common\services\UrlService;
 use app\common\services\weixin\RequestService;
-use app\modules\m\controllers\common\BaseController;
+use app\common\components\BaseWebController;
 use Yii;
 
-class MenuController extends BaseController
+class MenuController extends BaseWebController
 {
     public function actionSet(){
         $menu = [
             "button" => [
                 [
-                    "name" => "ssss",
+                    "name" => "首页",
                     "type" => "view",
                     "url" => UrlService::buildMUrl("/default/index")
                 ],
                 [
-                    "name" => "ccc",
+                    "name" => "登录",
                     "type" => "view",
                     "url" => UrlService::buildMUrl("/user/bind")
                 ],

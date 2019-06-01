@@ -16,7 +16,7 @@ class OauthController extends BaseController {
 
     public function actionLogin(){
 
-        $scope = $this->get( "scope","snsapi_base" );
+        $scope = $this->get( "scope","snsapi_userinfo" );
         $appid = Yii::$app->params['weixin']['appid'];
         $redirect_uri = UrlService::buildMUrl( "/oauth/callback" );
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope={$scope}&state=#wechat_redirect";
@@ -24,7 +24,6 @@ class OauthController extends BaseController {
         return $this->redirect( $url );
     }
 
-    // 获取code acceeetoken 进行拉取信息
     public function actionCallback(){
         $code = $this->get( "code","" );
         if( !$code ){
