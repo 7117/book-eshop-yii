@@ -30,7 +30,8 @@ class BaseController extends BaseWebController {
 		'm/default/index',
 		'm/product/index',
 		'm/product/info',
-	];
+        'm/user/bind',
+    ];
 
 	public function __construct($id, $module, $config = []){
 		parent::__construct($id, $module, $config = []);
@@ -74,6 +75,7 @@ class BaseController extends BaseWebController {
 
 					if( in_array( $action->getUniqueId() ,$this->special_AllowAction ) ){
 						return true;
+
 					}
 				}
 				$this->redirect( $redirect_url );

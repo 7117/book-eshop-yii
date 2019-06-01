@@ -1,10 +1,8 @@
 <?php
-use app\assets\MAsset;
-
-MAsset::register($this);
+use \app\common\services\UrlService;
+use \app\common\services\UtilService;
+\app\assets\MAsset::register($this);
 ?>
-
-<?php $this->beginPage();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,26 +12,37 @@ MAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
-    <title>图书商城</title>
-    <?php $this->head();?>
+    <title><?=Yii::$app->params['title'];?></title>
+    <?php $this->head() ?>
 </head>
 <body>
-<?php $this->beginBody();?>
-
+<?php $this->beginBody() ?>
 <div style="min-height: 500px;">
-    <?=$content?>
+    <?=$content;?>
 </div>
-
 <div class="copyright clearfix">
+    <?php if( isset( $this->params['current_user'] ) ):?>
+        <p class="name">欢迎您，<?=UtilService::encode( $this->params['current_user']["nickname"] );?></p>
+    <?php endif;?>
 </div>
+<?php if( !\Yii::$app->view->params['menu_hide'] ):?>
+    <div class="footer_fixed clearfix">
+        <span><a href="<?=UrlService::buildMUrl("/default/index");?>" class="default"><i class="home_icon"></i><b>首页</b></a></span>
+        <span><a href="<?=UrlService::buildMUrl("/product/index");?>" class="product"><i class="store_icon"></i><b>图书</b></a></span>
 
-<div class="footer_fixed clearfix">
-    <span><a href="/m/" class="default"><i class="home_icon"></i><b>首页</b></a></span>
-    <span><a href="/m/product/index" class="product"><i class="store_icon"></i><b>图书</b></a></span>
-    <span><a href="/m/user/index" class="user"><i class="member_icon"></i><b>我的</b></a></span>
+        <?php if( isset( $this->params['current_user'] ) ):?>
+            <span><a href="<?=UrlService::buildMUrl("/user/index");?>" class="user"><i class="member_icon"></i><b>我的</b></a></span>
+        <?php else:?>
+           <span><a href="<?=UrlService::buildMUrl("/user/bind");?>" class="user"><i class="member_icon"></i><b>我的</b></a></span>
+        <?php endif;?>
+
+    </div>
+<?php endif;?>
+
+<div class="layout_hide_wrap hidden">
+    <input type="hidden" id="share_info" value='<?=Yii::$app->getView()->params['share_info'];?>'>
 </div>
-
-<?php $this->endBody();?>
+<?php $this->endBody() ?>
 </body>
 </html>
-<?php $this->endPage();?>
+<?php $this->endPage() ?>

@@ -13,7 +13,7 @@ StaticService::includeAppJsStatic("/js/m/default/index.js",['depends' => app\ass
         <?php if ($image_list) :?>
         <ul>
             <?php foreach ($image_list as $_item ) :?>
-            <li><img style="max-height: 250px;" src="<?=UrlService::buildPicUrl("brand",$_item['image_key'])?>" /></li>
+                <li><img style="max-height: 250px;" src="<?=UrlService::buildPicUrl("brand",$_item['image_key'])?>" /></li>
             <?php endforeach;?>
         </ul>
         <?php endif;?>
