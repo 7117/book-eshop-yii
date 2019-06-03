@@ -10,13 +10,13 @@
             <li style="padding: 5px 5px;">
                 <label>
                     <input style="display: inline;" type="radio" name="address_id" value="2"  checked   >
-                    浙江省宁波市海曙区太阳出来了爬山平（郭威收）13774355081                </label>
+                    上海市浦东区太阳洋泾街道（孙潇）13774355081                </label>
 
             </li>
             <li style="padding: 5px 5px;">
                 <label>
                     <input style="display: inline;" type="radio" name="address_id" value="1"   >
-                    天津市河东区狗不理包子100号（郭威收）13774355074                </label>
+                    天津市河东区狗不理包子100号（孙潇收）13774355074                </label>
 
             </li>
         </ul>

@@ -2,9 +2,9 @@ $(document).ready(function () {
 
     var product = {
         init:function(){
-            p : 1;
-            sort_field : "default";
-            sort : "";
+            this.p = 1;
+            this.sort_field = "default";
+            this.sort = "";
             this.eventBind();
         },
         eventBind:function(){
@@ -23,7 +23,7 @@ $(document).ready(function () {
                 that.search();
             });
 
-            process = true;
+            let process = true;
             $( window ).scroll( function() {
                 if( ( ( $(window).height() + $(window).scrollTop() ) > $(document).height() - 20 ) && process ){
                     process = false;

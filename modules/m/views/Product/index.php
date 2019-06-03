@@ -1,9 +1,7 @@
 <?php
 use \app\common\services\UrlService;
 use \app\common\services\StaticService;
-
 StaticService::includeAppJsStatic( "/js/m/product/index.js",\app\assets\MAsset::className() );
-
 ?>
 <div class="search_header">
     <a href="<?=UrlService::buildNullUrl();?>" class="category_icon"></a>
