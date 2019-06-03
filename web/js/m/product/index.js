@@ -48,7 +48,16 @@ $(document).ready(function () {
                             var html = "";
                             for( idx in res.data.data ){
                                 var info = res.data.data[ idx ];
-                                html += '<li> <a href="' + common_ops.buildMUrl( "/product/info",{ id:info['id'] } ) + '"> <i><img src="'+ info['main_image_url'] +'"  style="width: 100%;height: 200px;"/></i> <span>'+ info['name'] +'</span> <b><label>月销量' + info['month_count'] +'</label>¥' + info['price'] +'</b> </a> </li>';
+                                html += '<li> ' +
+                                    '<a href="' + common_ops.buildMUrl( "/product/info",{ id:info['id'] } ) + '"> ' +
+                                        '<i>' +
+                                            '<img src="'+ info['main_image_url'] +'"  style="width: 100%;height: 200px;"/>' +
+                                        '</i> ' +
+                                        '<span>'+ info['name'] +'</span> ' +
+                                        '<b>' +
+                                            '<label>月销量' + info['month_count'] +'</label>¥' + info['price'] +'' +
+                                        '</b> </a> ' +
+                                    '</li>';
                             }
 
                             $(".probox ul.prolist").append( html );

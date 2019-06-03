@@ -14,6 +14,7 @@ use app\models\member\MemberFav;
 use app\modules\m\controllers\common\BaseController;
 
 class ProductController extends BaseController {
+
     public function actionIndex(){
 
         $kw = trim( $this->get("kw","") );
