@@ -27,7 +27,6 @@ class UserController extends BaseController
         ]);
     }
 
-
     public function actionBind(){
         if( \Yii::$app->request->isGet ){
             return $this->render( "bind" );

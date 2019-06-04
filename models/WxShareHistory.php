@@ -7,15 +7,15 @@ use Yii;
 /**
  * This is the model class for table "wx_share_history".
  *
- * @property integer $id
- * @property integer $member_id
- * @property string $share_url
- * @property string $created_time
+ * @property string $id
+ * @property int $member_id 会员id
+ * @property string $share_url 分享的页面url
+ * @property string $created_time 创建时间
  */
 class WxShareHistory extends \yii\db\ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -23,7 +23,7 @@ class WxShareHistory extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -35,7 +35,7 @@ class WxShareHistory extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {

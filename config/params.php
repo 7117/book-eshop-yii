@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => '微信图书商城',
+    'title' => '图书商城',
     "domain" => [
         'www' => 'http://super.nat300.top/',
         'm' => 'http://super.nat300.top/m',
@@ -16,7 +16,7 @@ return [
     ],
     "weixin" => [
         "appid" => 'wxc01ba9b834be5023',
-        "sk" => 'eb11595ecf702380d1f080526fa8e189',
+        "sk" => 'da1e24dd41859f769b23c089f827268c',
         "token" => 'tomalang689',
         "aeskey" => 'P6PaB6bPrRzKkva5lq6kHWtYkOOlVhYq4fh1iR7LMKB'
     ]

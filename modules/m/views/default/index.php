@@ -5,9 +5,7 @@ use app\common\services\StaticService;
 
 StaticService::includeAppJsStatic("/js/m/default/index.js",['depends' => app\assets\MAsset::className()]);
 ?>
-<div class="shop_header">
-    <i class="shop_icon"></i>
-</div>
+
 <div id="slideBox" class="slideBox">
     <div class="bd">
         <?php if ($image_list) :?>
