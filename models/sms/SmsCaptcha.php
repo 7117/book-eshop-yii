@@ -37,6 +37,8 @@ class SmsCaptcha extends \yii\db\ActiveRecord
 
     public static function checkCaptcha ($mobile,$captcha) {
         $info = self::find()->where(['mobile' => $mobile,'captcha' => $captcha ])->one();
+//        var_dump($info);
+//        die();
         if ($info && strtotime($info['expires_at']) >= time()){
             $info->expires_at = date("Y-m-d H:i:s",time()-1);
             $info->status = 1;
@@ -51,7 +53,7 @@ class SmsCaptcha extends \yii\db\ActiveRecord
         $this->ip = $ip;
         $this->captcha = rand(10000,99999);
         $this->expires_at = date("Y-m-d H:i:s",time() + 60*10 );
-        $this->created_time = date("Y-m-d H:i:s");
+        $this->created_time = date("Y-m-d H:i:s",time());
         $this->status = 0;
         return $this->save();
     }

@@ -5,15 +5,13 @@ use app\common\services\StaticService;
 
 StaticService::includeAppJsStatic("/js/m/default/index.js",['depends' => app\assets\MAsset::className()]);
 ?>
-<div class="shop_header">
-    <i class="shop_icon"></i>
-</div>
+
 <div id="slideBox" class="slideBox">
     <div class="bd">
         <?php if ($image_list) :?>
         <ul>
             <?php foreach ($image_list as $_item ) :?>
-            <li><img style="max-height: 250px;" src="<?=UrlService::buildPicUrl("brand",$_item['image_key'])?>" /></li>
+                <li><img style="max-height: 250px;" src="<?=UrlService::buildPicUrl("brand",$_item['image_key'])?>" /></li>
             <?php endforeach;?>
         </ul>
         <?php endif;?>

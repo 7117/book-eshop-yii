@@ -14,17 +14,17 @@ $(document).ready(function(){
         var captcha_code = $(".login_form_wrap input[name=captcha_code]").val();
 
         if( mobile.length < 1 ||  !/^[1-9]\d{10}$/.test( mobile ) ){
-            alert("请输入符合要求的手机号码~~");
+            alert("请输入符合要求的手机号码");
             return false;
         }
 
         if( img_captcha.length < 1){
-            alert("请输入正确的图形校验码~~");
+            alert("请输入正确的图形校验码");
             return;
         }
 
         if( captcha_code.length < 1){
-            alert("请输入手机验证码~~");
+            alert("请输入手机验证码");
             return;
         }
 

@@ -2,8 +2,9 @@
 namespace app\modules\weixin\controllers;
 
 use app\common\services\UrlService;
+use app\common\services\weixin\RequestService;
 use app\common\components\BaseWebController;
-use app\modules\weixin\RequestService;
+use Yii;
 
 class MenuController extends BaseWebController
 {
@@ -11,14 +12,14 @@ class MenuController extends BaseWebController
         $menu = [
             "button" => [
                 [
-                    "name" => "商城",
+                    "name" => "首页",
                     "type" => "view",
                     "url" => UrlService::buildMUrl("/default/index")
                 ],
                 [
-                    "name" => "我",
+                    "name" => "登录",
                     "type" => "view",
-                    "url" => UrlService::buildMUrl("/user/index")
+                    "url" => UrlService::buildMUrl("/user/bind")
                 ],
             ],
         ];
@@ -31,6 +32,7 @@ class MenuController extends BaseWebController
             $url = "menu/create?access_token={$access_token}";
             $ret = RequestService::send($url,json_encode($menu,JSON_UNESCAPED_UNICODE),'POST');
 
+            var_dump($ret);
         }
 
     }

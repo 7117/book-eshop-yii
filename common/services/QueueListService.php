@@ -11,7 +11,6 @@ class QueueListService extends BaseService{
 		$model->data = json_encode( $data );
 		$model->status = -1;
 		$model->created_time = $model->updated_time = date("Y-m-d H:i:s");
-		return $model->save( 0 );
+		return $model->save();
 	}
-
 }

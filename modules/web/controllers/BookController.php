@@ -2,9 +2,11 @@
 
 namespace app\modules\web\controllers;
 
-use app\common\services\book\BookService;
 use Yii;
+use app\common\services\book\BookService;
+use app\models\book\Images;
 use app\models\book\Book;
+use app\common\services\UrlService;
 use app\common\services\ConstantMapService;
 use app\models\book\BookCat;
 use app\modules\web\controllers\common\BaseController;
@@ -111,12 +113,15 @@ class BookController extends BaseController
 
     public function actionInfo()
     {
-        return $this->render('info');
-    }
+        $id = intval( trim($this->get('id')));
 
-    public function actionImages()
-    {
-        return $this->render('images');
+        if ($id){
+            $info = Book::find()->where(['id' => $id ])->one();
+        }
+
+        return $this->render('info',[
+            'info' => $info
+        ]);
     }
 
     public function actionCat()
@@ -293,6 +298,43 @@ class BookController extends BaseController
         }
 
         return $this->renderJSON([],"操作成功",200);
+    }
+
+    public function actionImages()
+    {
+        $p = intval( $this->get("p",1) );
+        $p = ( $p > 0 )?$p:1;
+
+        $bucket = "book";
+        $query = Images::find()->where([ 'bucket' => $bucket ]);
+
+        $page_size = 1;
+        $total_res_count = $query->count();
+        $total_page = ceil( $total_res_count / $page_size );
+
+
+        $list = $query->orderBy([ 'id' => SORT_DESC ])
+            ->offset( ( $p - 1 ) * $page_size )
+            ->limit($page_size)
+            ->all( );
+
+        $data = [];
+        if( $list ){
+            foreach ( $list as $_item ){
+                $data[] = [
+                    'url' => UrlService::buildPicUrl( $bucket,$_item['file_key'] )
+                ];
+            }
+        }
+        return $this->render("images",[
+            'list' => $data,
+            'pages' => [
+                'total_count' => $total_res_count,
+                'page_size' => $page_size,
+                'total_page' => $total_page,
+                'p' => $p
+            ]
+        ]);
     }
 
 }

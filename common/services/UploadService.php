@@ -1,6 +1,7 @@
 <?php
 namespace app\common\services;
 
+use app\models\book\Images;
 use Yii;
 
 class UploadService extends BaseService
@@ -42,11 +43,21 @@ class UploadService extends BaseService
             file_put_contents( $upload_dir_path.$upload_file_name,file_get_contents( $file_path ) );
         }
 
+        self::saveImage( $bucket,$upload_file_name );
+
         return [
             'code' => 200,
             'path' => $upload_file_name,
             'prefix' => $upload_config[ $bucket ] ."/"
         ];
+    }
+
+    public static function saveImage($bucket = '' ,$file_key = ''){
+        $images = new Images();
+        $images->bucket = $bucket;
+        $images->file_key = $file_key;
+        $images->created_time = date("Y-m-d H:i:s",time());
+        return $images->save();
     }
 
 
