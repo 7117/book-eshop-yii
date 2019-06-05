@@ -1,6 +1,8 @@
 <?php
 
 namespace app\modules\m\controllers;
+
+use Yii;
 use app\common\services\ConstantMapService;
 use app\common\services\DataHelper;
 use app\common\services\PayOrderService;
@@ -183,74 +185,42 @@ class ProductController extends BaseController {
     }
 
     public function actionOrder(){
-        if( \Yii::$app->request->isGet ){
+
+        //get
+        if (Yii::$app->request->isGet){
             $book_id = intval( $this->get("id",0) );
-            $quantity = intval( $this->get("quantity",1) );
-            $sc = $this->get("sc","product");//sc source 来源
+            $quantity = intval( $this->get("quantity",0) );
+
+            if ( !$book_id ){
+                return $this->redirect( UrlService::buildMUrl("/product/index") );
+            }
+
+            $book_info = Book::find()->where( ['id'=>$book_id,'status'=>1 ] )->one();
+
+            if(!$book_info){
+                return $this->renderJSON([],"不存在这本书",-1);
+            }
+
             $product_list = [];
             $total_pay_money = 0;
-            if( $book_id ){
-                $book_info = Book::find()->where([ 'id' => $book_id ])->one();
-                if( $book_info ){
-                    $product_list[] = [
-                        'id' => $book_info['id'],
-                        'name' => UtilService::encode( $book_info['name'] ),
-                        'quantity' => $quantity,
-                        'price' => $book_info['price'],
-                        'main_image' =>  UrlService::buildPicUrl( "book",$book_info['main_image'])
-                    ];
-                    $total_pay_money += $book_info['price'] * $quantity;
-                }
-            }else{//从购物车中获取商品信息
-                $cart_list = MemberCart::find()->where([ 'member_id' => $this->current_user['id'] ])->all();
-                if( $cart_list ){
-                    $book_mapping = DataHelper::getDicByRelateID( $cart_list ,Book::className(),"book_id","id",[ 'name','price','main_image','stock' ] );
-                    foreach( $cart_list as $_item ){
-                        $tmp_book_info = $book_mapping[ $_item['book_id'] ];
-                        $product_list[] = [
-                            'id' => $_item['book_id'],
-                            'name' => UtilService::encode( $tmp_book_info['name'] ),
-                            'quantity' => $_item['quantity'],
-                            'price' => $tmp_book_info['price'],
-                            'main_image' => UrlService::buildPicUrl( "book",$tmp_book_info['main_image'] )
-                        ];
-                        $total_pay_money += $tmp_book_info['price'] * $_item['quantity'];
-                    }
-                }
-            }
 
+            $product_list[] = [
+                'id' => $book_info['id'],
+                'name' => UtilService::encode( $book_info['name'] ),
+                'quantity' => $quantity,
+                'price' => UtilService::encode( $book_info['price'] ),
+                'main_image' => UrlService::buildPicUrl( "book",$book_info['main_image'] )
+            ];
 
-            $address_list = MemberAddress::find()->where([ 'member_id' => $this->current_user['id'],'status' => 1 ])
-                ->orderBy([ 'is_default' => SORT_DESC,'id' => SORT_DESC ])->asArray()->all();
-            $data_address = [];
-            if( $address_list ){
-                $area_mapping = DataHelper::getDicByRelateID( $address_list,City::className(),"area_id","id",[ 'province','city','area' ] );
-                foreach( $address_list as $_item){
-                    $tmp_area_info = $area_mapping[ $_item['area_id'] ];
-                    $tmp_area = $tmp_area_info['province'].$tmp_area_info['city'];
-                    if( $_item['province_id'] != $_item['city_id'] ){
-                        $tmp_area .= $tmp_area_info['area'];
-                    }
-
-                    $data_address[] = [
-                        'id' => $_item['id'],
-                        'is_default' => $_item['is_default'],
-                        'nickname' => UtilService::encode( $_item['nickname'] ),
-                        'mobile' => UtilService::encode( $_item['mobile'] ),
-                        'address' => $tmp_area.UtilService::encode( $_item['address'] ),
-                    ];
-                }
-            }
+            $total_pay_money = $book_info['price'] * $quantity;
 
             return $this->render("order",[
                 'product_list' => $product_list,
-                'total_pay_money' => sprintf("%.2f",$total_pay_money),
-                'address_list' => $data_address,
-                'sc' => $sc
+                'total_pay_money' => sprintf("%.2f",$total_pay_money)
             ]);
         }
 
-        $sc = trim( $this->post("sc","") );
+        //post
         $product_items = $this->post("product_items",[]);
         $address_id = intval( $this->post("address_id",0 ) );
 
@@ -261,8 +231,6 @@ class ProductController extends BaseController {
         if( !$product_items ){
             return $this->renderJSON([],"请选择商品之后在提交",-1);
         }
-
-
 
         $book_ids = [];
         foreach( $product_items as $_item ) {
@@ -275,45 +243,9 @@ class ProductController extends BaseController {
             return $this->renderJSON([],"请选择商品之后在提交",-1);
         }
 
-
-
-        $target_type = 1;
-        $items = [];
-        foreach( $product_items as $_item ){
-            $tmp_item_info = explode("#",$_item);
-            $tmp_book_info = $book_mapping[ $tmp_item_info[0] ];
-            $items[] = [
-                'price' => $tmp_book_info['price'] * $tmp_item_info[1],
-                'quantity' => $tmp_item_info[1],
-                'target_type' => $target_type,
-                'target_id' => $tmp_item_info[0]
-            ];
-        }
-
-
-        $params = [
-            'pay_type' => 1,
-            'pay_source' => 2,
-            'target_type' => $target_type,
-            'note' => '购买书籍',
-            'status' => -8,
-            'express_address_id' => $address_id
-        ];
-
-
-        $ret = PayOrderService::createPayOrder( $this->current_user['id'],$items,$params );
-
-        if( !$ret ){
-            return $this->renderJSON([],"提交失败，失败原因：".PayOrderService::getLastErrorMsg(),-1 );
-        }
-
-        if( $sc == "cart" ){//如果从购物车创建订单，需要清空购物车了
-            MemberCart::deleteAll([ 'member_id' => $this->current_user['id'] ]);
-        }
-
-        return $this->renderJSON([ 'url' => UrlService::buildMUrl("/pay/buy/?pay_order_id={$ret['id']}") ],'下单成功,前去支付' );
     }
 
+    //浏览数
     public function actionOps(){
         $act = trim( $this->post("act","") );
         $book_id = intval( $this->post("book_id",0) );
