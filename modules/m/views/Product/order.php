@@ -1,5 +1,7 @@
 <?php
-use app\common\services\UrlService;
+use \app\common\services\UrlService;
+use \app\common\services\StaticService;
+StaticService::includeAppJsStatic( "/js/m/product/order.js",\app\assets\MAsset::className() );
 ?>
 <div class="page_title clearfix">
         <span>订单提交</span>

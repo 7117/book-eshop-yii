@@ -1,4 +1,4 @@
-$(ducument).ready(function(){
+$(document).ready(function(){
     var product = {
         init:function(){
             this.eventBind();
@@ -29,6 +29,7 @@ $(ducument).ready(function(){
                     url:common_ops.buildMUrl("/product/order"),
                     type:'POST',
                     data:{
+                        //id#quantity
                         product_items:data,
                         address_id:address_id,
                         sc:$(".op_box input[name=sc]").val()

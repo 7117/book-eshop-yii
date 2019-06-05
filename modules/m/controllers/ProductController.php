@@ -221,7 +221,8 @@ class ProductController extends BaseController {
         }
 
         //post
-        $product_items = $this->post("product_items",[]);
+        $sc = trim( $this->post("sc","") );
+        $product_items = $this->post("product_items",[]);//id+quantity
         $address_id = intval( $this->post("address_id",0 ) );
 
         if( !$address_id ){
@@ -234,7 +235,7 @@ class ProductController extends BaseController {
 
         $book_ids = [];
         foreach( $product_items as $_item ) {
-            $tmp_item_info = explode("#", $_item);
+            $tmp_item_info = explode("#", $_item);//id+quantity
             $book_ids[] = $tmp_item_info[ 0 ];
         }
 
@@ -243,6 +244,40 @@ class ProductController extends BaseController {
             return $this->renderJSON([],"请选择商品之后在提交",-1);
         }
 
+        $target_type = 1;
+        $items = [];
+        foreach( $product_items as $_item ){
+            $tmp_item_info = explode("#",$_item);
+            $tmp_book_info = $book_mapping[ $tmp_item_info[0] ];
+            $items[] = [
+                'price' => $tmp_book_info['price'] * $tmp_item_info[1],
+                'quantity' => $tmp_item_info[1],
+                'target_type' => $target_type,
+                'target_id' => $tmp_item_info[0]
+            ];
+        }
+
+        $params = [
+            'pay_type' => 1,
+            'pay_source' => 2,
+            'target_type' => $target_type,
+            'note' => '购买书籍',
+            'status' => -8,
+            'express_address_id' => $address_id
+        ];
+
+
+        $ret = PayOrderService::createPayOrder( $this->current_user['id'],$items,$params );
+
+        if( !$ret ){
+            return $this->renderJSON([],"提交失败，失败原因：".PayOrderService::getLastErrorMsg(),-1 );
+        }
+
+        if( $sc == "cart" ){
+            MemberCart::deleteAll([ 'member_id' => $this->current_user['id'] ]);
+        }
+
+        return $this->renderJSON([ 'url' => UrlService::buildMUrl("/pay/buy/?pay_order_id={$ret['id']}") ],'下单成功,前去支付' );
     }
 
     //浏览数
