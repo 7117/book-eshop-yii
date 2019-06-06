@@ -16,7 +16,7 @@ StaticService::includeAppJsStatic( "/js/m/product/cart.js",\app\assets\MAsset::c
                         <b>¥<?=$_item["book_price"];?></b>
                         <span class="delC_icon" data="<?=$_item['id'];?>" data-book_id="<?=$_item['book_id'];?>"></span>
                         <div class="quantity-form">
-                            <a class="icon_lower" data-book_id="<?=$_item['book_id'];?>" ></a>
+                            <a class="icon_lower" data-book_id="<?=$_item['book_id'];?>"  data-book-quantity="<?=$_item['quantity'];?>" ></a>
                             <input type="text" name="quantity" class="input_quantity" value="<?=$_item['quantity'];?>" readonly="readonly" max="<?=$_item['book_stock'];?>" />
                             <a class="icon_plus" data-book_id="<?=$_item['book_id'];?>"></a>
                         </div>

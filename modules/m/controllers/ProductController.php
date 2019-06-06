@@ -222,7 +222,7 @@ class ProductController extends BaseController {
 
         //post
         $sc = trim( $this->post("sc","") );
-        $product_items = $this->post("product_items",[]);//id+quantity
+        $product_items = $this->post("product_items",[]);   //id + quantity
         $address_id = intval( $this->post("address_id",0 ) );
 
         if( !$address_id ){
@@ -235,7 +235,7 @@ class ProductController extends BaseController {
 
         $book_ids = [];
         foreach( $product_items as $_item ) {
-            $tmp_item_info = explode("#", $_item);//id+quantity
+            $tmp_item_info = explode("#", $_item);   //id + quantity
             $book_ids[] = $tmp_item_info[ 0 ];
         }
 
