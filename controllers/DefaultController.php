@@ -6,6 +6,7 @@ namespace app\controllers;
 use app\common\components\BaseWebController;
 use app\common\services\captcha\ValidateCode;
 use app\common\services\UtilService;
+use app\common\services\weixin\TemplateService;
 use app\models\sms\SmsCaptcha;
 use app\common\services\AreaService;
 use dosamigos\qrcode\lib\Enum;
