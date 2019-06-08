@@ -187,36 +187,70 @@ class ProductController extends BaseController {
     public function actionOrder(){
 
         //get
-        if (Yii::$app->request->isGet){
+        if( \Yii::$app->request->isGet ){
             $book_id = intval( $this->get("id",0) );
-            $quantity = intval( $this->get("quantity",0) );
-
-            if ( !$book_id ){
-                return $this->redirect( UrlService::buildMUrl("/product/index") );
-            }
-
-            $book_info = Book::find()->where( ['id'=>$book_id,'status'=>1 ] )->one();
-
-            if(!$book_info){
-                return $this->renderJSON([],"不存在这本书",-1);
-            }
-
+            $quantity = intval( $this->get("quantity",1) );
+            $sc = $this->get("sc","product");//sc source 来源
             $product_list = [];
             $total_pay_money = 0;
+            if( $book_id ){
+                $book_info = Book::find()->where([ 'id' => $book_id ])->one();
+                if( $book_info ){
+                    $product_list[] = [
+                        'id' => $book_info['id'],
+                        'name' => UtilService::encode( $book_info['name'] ),
+                        'quantity' => $quantity,
+                        'price' => $book_info['price'],
+                        'main_image' =>  UrlService::buildPicUrl( "book",$book_info['main_image'])
+                    ];
+                    $total_pay_money += $book_info['price'] * $quantity;
+                }
+            }else{//从购物车中获取商品信息
+                $cart_list = MemberCart::find()->where([ 'member_id' => $this->current_user['id'] ])->all();
+                if( $cart_list ){
+                    $book_mapping = DataHelper::getDicByRelateID( $cart_list ,Book::className(),"book_id","id",[ 'name','price','main_image','stock' ] );
+                    foreach( $cart_list as $_item ){
+                        $tmp_book_info = $book_mapping[ $_item['book_id'] ];
+                        $product_list[] = [
+                            'id' => $_item['book_id'],
+                            'name' => UtilService::encode( $tmp_book_info['name'] ),
+                            'quantity' => $_item['quantity'],
+                            'price' => $tmp_book_info['price'],
+                            'main_image' => UrlService::buildPicUrl( "book",$tmp_book_info['main_image'] )
+                        ];
+                        $total_pay_money += $tmp_book_info['price'] * $_item['quantity'];
+                    }
+                }
+            }
 
-            $product_list[] = [
-                'id' => $book_info['id'],
-                'name' => UtilService::encode( $book_info['name'] ),
-                'quantity' => $quantity,
-                'price' => UtilService::encode( $book_info['price'] ),
-                'main_image' => UrlService::buildPicUrl( "book",$book_info['main_image'] )
-            ];
 
-            $total_pay_money = $book_info['price'] * $quantity;
+            $address_list = MemberAddress::find()->where([ 'member_id' => $this->current_user['id'],'status' => 1 ])
+                ->orderBy([ 'is_default' => SORT_DESC,'id' => SORT_DESC ])->asArray()->all();
+            $data_address = [];
+            if( $address_list ){
+                $area_mapping = DataHelper::getDicByRelateID( $address_list,City::className(),"area_id","id",[ 'province','city','area' ] );
+                foreach( $address_list as $_item){
+                    $tmp_area_info = $area_mapping[ $_item['area_id'] ];
+                    $tmp_area = $tmp_area_info['province'].$tmp_area_info['city'];
+                    if( $_item['province_id'] != $_item['city_id'] ){
+                        $tmp_area .= $tmp_area_info['area'];
+                    }
+
+                    $data_address[] = [
+                        'id' => $_item['id'],
+                        'is_default' => $_item['is_default'],
+                        'nickname' => UtilService::encode( $_item['nickname'] ),
+                        'mobile' => UtilService::encode( $_item['mobile'] ),
+                        'address' => $tmp_area.UtilService::encode( $_item['address'] ),
+                    ];
+                }
+            }
 
             return $this->render("order",[
                 'product_list' => $product_list,
-                'total_pay_money' => sprintf("%.2f",$total_pay_money)
+                'total_pay_money' => sprintf("%.2f",$total_pay_money),
+                'address_list' => $data_address,
+                'sc' => $sc
             ]);
         }
 
