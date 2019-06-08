@@ -121,9 +121,13 @@ class UserController extends BaseController
         return $this->render('fav');
     }
 
-    public function actionComment()
-    {
-        return $this->render('comment');
+    public function actionComment(){
+        $list = MemberComments::find()->where([ 'member_id' => $this->current_user['id'] ])
+            ->orderBy([ 'id' => SORT_DESC ])->asArray()->all();
+
+        return $this->render('comment',[
+            'list' => $list
+        ]);
     }
 
     public function actionComment_set(){
