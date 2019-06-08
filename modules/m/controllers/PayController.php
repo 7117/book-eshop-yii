@@ -80,4 +80,116 @@ class PayController extends BaseController
         return $this->renderJSON( $wx_target->getParameters() );
     }
 
+    //微信服务器连接处
+    public function actionCallback(){
+
+        if ( !\Yii::$app->request->isPost ) {
+            return $this->payEcho(false);
+        }
+
+        $check_ret = $this->OrderCallbackCheck();
+
+        if( !$check_ret ){
+            return $this->payEcho(false);
+        }
+        $client_type = $check_ret['client_type'];
+
+        $order_sn = $check_ret['order_sn'];
+
+        $pay_order_info = PayOrder::findOne([ 'order_sn' => $order_sn]);
+        if (!$pay_order_info) {
+            return $this->payEcho(false,$client_type );
+        }
+
+        if ( $client_type == "wechat"  &&  intval( strval( $pay_order_info['pay_price'] * 100 ) ) != $check_ret['total_fee']) { //微信单位为分
+            return $this->payEcho(false,$client_type );
+        }
+
+        if ($pay_order_info['status'] == 1) {
+            return $this->payEcho(true,$client_type );
+        }
+
+        $params = [
+            'pay_sn' => $check_ret['transaction_id'],
+            'callback_data' => ''
+        ];
+
+        PayOrderService::orderSuccess($pay_order_info['id'],$params);
+
+        //记录支付回调信息
+        PayOrderService::setPayOrderCallbackData($pay_order_info['id'],'pay',$check_ret['callback_data']);
+
+        return self::payEcho(true,$client_type);
+    }
+
+    //处理微信返回的参数
+    protected function OrderCallbackCheck(){
+
+        $xml = file_get_contents("php://input");
+        $config_weixin = \Yii::$app->params['weixin'];
+        $wx_target = new PayApiService( $config_weixin );
+        $wx_ret = $wx_target->xmlToArray($xml);
+        $this->recordCallback( $xml );
+        if(!$wx_ret){
+            return false;
+        }
+
+        if($wx_ret['return_code'] == "FAIL" || $wx_ret['result_code'] == "FAIL"){
+            return false;
+        }
+
+        if( !isset($wx_ret['sign']) ){
+            return false;
+        }
+
+        $order_sn = $wx_ret['out_trade_no'];
+        foreach(  $wx_ret as $_key => $_val ){
+            if( in_array( $_key,[ 'sign' ] ) ){
+                continue;
+            }
+            $wx_target->setParameter( $_key,$_val );
+        }
+
+        if( !$wx_target->checkSign( $wx_ret['sign'] ) ){
+            return false;
+        }
+
+        return [
+            'result_code' => 'SUCCESS',
+            'client_type' => "wechat",
+            'order_sn' => $order_sn,
+            'total_fee' => $wx_ret['total_fee'],
+            'transaction_id' => $wx_ret['transaction_id'],
+            'openid' => $wx_ret['openid'],
+            'callback_data' => $xml
+        ];
+    }
+
+
+    //获取openid
+    private function getOpenId(){
+        $openid = $this->getCookie($this->auth_cookie_current_openid,'');
+
+        if( !$openid  ){
+            $openid_info = OauthMemberBind::findOne([ 'member_id' => $this->current_user['id'],'type' => 1 ]);
+            if( !$openid_info || !isset($openid_info['openid']) ){
+                return false;
+            }
+            $openid = $openid_info['openid'];
+        }
+        return $openid;
+    }
+
+    //记录
+    private function recordCallback($xml){
+        $log = new FileTarget();
+        $log->logFile = Yii::$app->getRuntimePath() . "/logs/wxpay_sign_".date("Ymd").".log";
+        $log->messages[] = [
+            "[url:{$_SERVER['REQUEST_URI']}],[xml data:{$xml}]",
+            1,
+            'application',
+            time()
+        ];
+        $log->export();
+    }
 }

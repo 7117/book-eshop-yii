@@ -21,7 +21,7 @@ class PayApiService {
         $this->wxpay_params = $wxpay_params;
     }
 
-    //设置预订单需要的数据
+    //设置预订单需要的数据  这个是返回来的
     public function setParameter($parameter, $parameterValue){
         $this->params[$parameter] = $parameterValue;
     }
@@ -68,7 +68,7 @@ class PayApiService {
         foreach ($Obj as $k => $v){
             $Parameters[$k] = $v;
         }
-        ksort($Parameters);//键值排序
+        ksort($Parameters); //键值排序
         $String = $this->formatBizQueryParaMap($Parameters, false);
         $String = $String."&key=".$this->wxpay_params['pay']['key'];
         $String = md5($String);
@@ -79,7 +79,7 @@ class PayApiService {
     public function checkSign($sign)
     {
         $tmpData = $this->params;
-        $wxpay_sign = $this->getSign($tmpData);//本地签名
+        $wxpay_sign = $this->getSign($tmpData); //本地签名
 
         if ($wxpay_sign == $sign) {
             return TRUE;

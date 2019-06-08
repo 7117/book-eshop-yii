@@ -1,9 +1,11 @@
 $(document).ready( function(){
 
     var pay = {
+
         init:function(){
             this.eventBind();
         },
+
         eventBind:function(){
             $(".do_pay").click( function() {
                 var button = $(this);
@@ -41,7 +43,7 @@ $(document).ready( function(){
                                     button.removeClass("disabled");
                                 }
                             };
-                            weixin_jssdk_ops.wxPay(json_data);
+                            weixin.wxPay(json_data);
                         }else{
                             button.removeClass("disabled");
                             alert(res.msg);

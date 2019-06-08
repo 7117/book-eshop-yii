@@ -119,6 +119,85 @@ class PayOrderService extends  BaseService {
         }
     }
 
+    public static function orderSuccess($pay_order_id,$params = []){
+
+        $date_now = date("Y-m-d H:i:s");
+        $connection = PayOrder::getDb();
+        $transaction = $connection->beginTransaction();
+        try {
+            $pay_order_info = PayOrder::findOne( $pay_order_id );
+            if( !$pay_order_info || !in_array( $pay_order_info['status'],[-8,-7] ) ){//只有-8，-7状态才可以操作
+                return true;
+            }
+
+            $pay_order_info->pay_sn = isset($params['pay_sn'])?$params['pay_sn']:"";
+            $pay_order_info->status = 1;
+            $pay_order_info->express_status = -7;
+            $pay_order_info->pay_time = $date_now;
+            $pay_order_info->updated_time = $date_now;
+            $pay_order_info->update(0);
+            $items = PayOrderItem::findAll( [ 'pay_order_id' => $pay_order_id ] );
+
+            foreach($items as $_item){
+                switch( $_item->target_type ){
+                    case 1://书籍购买
+                        BookService::confirmOrderItem( $_item['id'] );
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+
+            $transaction->commit();
+
+        } catch (Exception $e) {
+            $transaction->rollBack();
+            return self::_err( $e->getMessage() );
+        }
+
+        //需要做一个队列数据库了,用队里处理销售月统计
+        QueueListService::addQueue( "pay",[
+            'member_id' => $pay_order_info['member_id'],
+            'pay_order_id' => $pay_order_info['id'],
+        ] );
+
+        return true;
+
+    }
+
+    public static function closeOrder( $pay_order_id = 0 ){
+        $date_now = date("Y-m-d H:i:s");
+        $pay_order_info = PayOrder::find()->where([ 'id' => $pay_order_id,'status' => -8 ])->one();
+        if( !$pay_order_info ){
+            return self::_err("指定订单不存在");
+        }
+
+        $pay_order_items = PayOrderItem::findAll( [ 'pay_order_id' => $pay_order_id ] );
+
+        if( $pay_order_items ){
+            foreach( $pay_order_items as $_order_item_info ){
+
+                switch ( $_order_item_info['target_type'] ){
+                    case 1:
+                        $tmp_book_info = Book::find()->where([ 'id' => $_order_item_info['target_id'] ])->one();
+                        if( $tmp_book_info ){
+                            $tmp_book_info->stock += $_order_item_info['quantity'];
+                            $tmp_book_info->updated_time = $date_now;
+                            $tmp_book_info->update( 0 );
+                            BookService::setStockChangeLog( $_order_item_info['target_id'],$_order_item_info['quantity'],"订单过期释放库存" );
+                        }
+                        break;
+                }
+
+
+            }
+        }
+
+        $pay_order_info->status = 0;
+        $pay_order_info->updated_time = $date_now;
+        return $pay_order_info->update(0);
+    }
+
     public static function generate_order_sn(){
         do{
             $sn = md5(microtime(1).rand(0,9999999).'!@%egg#$');
@@ -126,5 +205,36 @@ class PayOrderService extends  BaseService {
         }while( PayOrder::findOne( [ 'order_sn' => $sn ] ) );
 
         return $sn;
+    }
+
+    public static function setPayOrderCallbackData($pay_order_id,$type,$callback = ''){
+        if(!$pay_order_id){
+            return self::_err("pay_order_id不能为空！");
+        }
+        if(!in_array($type,['pay','refund'])){
+            return self::_err("类型参数错误！");
+        }
+        $pay_order = PayOrder::findOne(['id' => $pay_order_id]);
+        if(!$pay_order){
+            return self::_err("找不到订单号为".$pay_order_id."的订单！");
+        }
+
+
+        $callback_data = PayOrderCallbackData::findOne(['pay_order_id' => $pay_order_id]);
+        if(!$callback_data){
+            $callback_data = new PayOrderCallbackData();
+            $callback_data->pay_order_id = $pay_order_id;
+            $callback_data->created_time = date("Y-m-d H:i:s");
+        }
+        if( $type == "refund" ){
+            $callback_data->refund_data = $callback;
+            $callback_data->pay_data = '';
+        }else{
+            $callback_data->pay_data = $callback;
+            $callback_data->refund_data = '';
+        }
+        $callback_data->updated_time = date("Y-m-d H:i:s");
+        $callback_data->save(0);
+        return true;
     }
 }
