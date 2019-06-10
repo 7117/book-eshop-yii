@@ -58,4 +58,12 @@ class DefaultController extends BaseWebController {
         }
         return $this->renderJson( [],ConstantMapService::$default_syserror,-1 );
     }
+
+
+    public function actionCascade(){
+        $province_id = $this->get('id',0);
+        $tree_info = AreaService::getProvinceCityTree($province_id);
+        return $this->renderJSON( $tree_info );
+    }
+
 }

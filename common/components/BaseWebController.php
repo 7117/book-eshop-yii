@@ -48,7 +48,7 @@ class BaseWebController extends Controller {
 
         return Yii::$app->end();
     }
-
+    
     public function renderJs($msg,$url){
         return $this->renderPartial("@app/views/common/js",['msg' => $msg,'url' => $url]);
     }
