@@ -5,7 +5,7 @@ use \app\common\services\UrlService;
 <div class="col-md-6">
     <div class="ibox-content">
         <form class="m-t" role="form" action="<?php UrlService::buildWebUrl("/user/login")?>" method="post">
-            <h2 class="font-bold text-center">管理后台</h2>
+            <h2 class="font-bold text-center"><?php echo Yii::$app->params['title'];?></h2>
             <div class="form-group text-center">
             </div>
             <div class="form-group">
