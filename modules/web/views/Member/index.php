@@ -83,8 +83,8 @@ StaticService::includeAppJsStatic("/js/web/member/index.js",["depends" => \app\a
         </table>
 
         <?php echo Yii::$app->getView()->renderFile("@app/modules/web/views/common/page.php",[
-                'pages' => $pages,
-                'url'  => '/member/index'
+            'pages' => $pages,
+            'url'  => '/member/index'
         ]);?>
 
     </div>
