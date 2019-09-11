@@ -61,13 +61,15 @@ StaticService::includeAppJsStatic("/js/web/account/index.js",['depends' => app\a
                     <td><?=$_item['mobile']?></td>
                     <td><?=$_item['email']?></td>
                     <td>
+<!--                        这个是个人信息页面-->
                         <a  href="<?=UrlService::buildWebUrl("/account/info",['id' => $_item['uid']])?>">
                             <i class="fa fa-eye fa-lg"></i>
                         </a>
+<!--                        这个地方是一个人的编辑页面-->
                         <a class="m-l" href="<?=UrlService::buildWebUrl("/account/set",['id' => $_item['uid']])?>">
                             <i class="fa fa-edit fa-lg"></i>
                         </a>
-
+<!--这个是删除恢复页面-->
                         <?php if($_item['status']):?>
                             <a class="m-l remove" href="javascript:void(0);" data="<?=$_item['uid']?>">
                                 <i class="fa fa-trash fa-lg"></i>

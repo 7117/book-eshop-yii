@@ -38,7 +38,6 @@ class AccountController extends BaseController
         }
 
         //分页
-//
         $page_size = Yii::$app->params['page'];
         $total_res_count = $query->count();
         $total_page = ceil($total_res_count/$page_size);
@@ -63,13 +62,21 @@ class AccountController extends BaseController
         ]);
     }
 
-//    新建个人信息
+//    新建修改个人信息
     public function actionSet()
     {
+//        请求的时候把数据分配过去
         if (Yii::$app->request->isGet){
-            return $this->render("set");
+            $id=intval(Yii::$app->request->get("id",0));
+            if(isset($id)){
+                $info=User::find()->where(['uid'=>$id])->one();
+            }
+            return $this->render("set", [
+                    'info' => $info
+                ]
+            );
         }
-
+        $id=intval($this->post("id",1));
         $nickname = trim($this->post("nickname",""));
         $mobile = trim($this->post("mobile",""));
         $email = trim($this->post("email",""));
@@ -92,23 +99,23 @@ class AccountController extends BaseController
             return $this->renderJson([],"密码不对",-1);
         }
 
-        $is_exist = User::find()->where(['login_name' => $login_name])->count();
+        $infoa = User::find()->where(['login_name' => $login_name])->andWhere(['!=','uid',$id])->count();
 
-        if ($is_exist) {
-            return $this->renderJson([],"登录名已经存在",-1);
+        if($infoa){
+            $user=$infoa;
+        }else{
+            $user=new User();
+            $user->created_time = date("Y-m-d H:i:s");
+            $user->setSalt();
         }
-
-        $user = new User();
         $user->nickname = $nickname;
         $user->mobile = $mobile;
         $user->email = $email;
         $user->avatar = ConstantMapService::$default_avatar;
         $user->login_name = $login_name;
         $user->login_pwd = $login_pwd;
-        $user->setSalt();
         $user->setPassword($login_pwd);
         $user->updated_time = date("Y-m-d H:i:s");
-        $user->created_time = date("Y-m-d H:i:s");
 
         $user->save();
 
@@ -137,7 +144,7 @@ class AccountController extends BaseController
             'access_list' => $access_list
         ]);
     }
-
+//删除还原
     public function actionOps()
     {
         if (!Yii::$app->request->isPost){
