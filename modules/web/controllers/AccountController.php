@@ -13,11 +13,13 @@ use app\modules\web\controllers\common\BaseController;
 
 class AccountController extends BaseController
 {
+//    初始化
+//     继承父类+设置模板
     public function __construct($id,$module,array $config=[]){
         parent::__construct($id,$module,$config);
         $this->layout="main";
     }
-
+//展示
     public function actionIndex()
     {
         $status = intval($this->get("status",ConstantMapService::$status_default));
@@ -62,7 +64,7 @@ class AccountController extends BaseController
         ]);
     }
 
-//    新建修改个人信息
+//新建修改个人信息
     public function actionSet()
     {
 //        请求的时候把数据分配过去
@@ -130,7 +132,6 @@ class AccountController extends BaseController
         if (!$id) {
             return $this->redirect($back_url);
         }
-        
 
         $user_info = User::find()->where(['uid'=>$id])->one();
 
