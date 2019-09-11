@@ -131,15 +131,22 @@ var common_ops = {
 
     alert:function( msg ,callback ){
         layer.alert( msg,{
+            //这个index其实是第几次调用
             yes:function( index ){
                 if( typeof callback == "function" ){
                     callback();
                     layer.close( index );
+
                 }
             }
-        });
+        }
+        );
     },
-
+    //四个参数
+    //第一个是信息
+    //第二个是按钮
+    //第三个是成功的方法
+    //第四个是失败的方法
     confirm:function( msg,callback ){
         callback = ( callback != undefined )?callback: { 'ok':null, 'cancel':null };
         layer.confirm( msg , {
@@ -156,9 +163,12 @@ var common_ops = {
             }
         });
     },
-
     tip:function( msg,target ){
+        //三个参数  第一个是信息
+        //第二个是对象
+        //第三个是样式
         layer.tips( msg, target, {
+            //3秒  颜色
             tips: [ 3, '#e5004f']
         });
         $('html, body').animate({

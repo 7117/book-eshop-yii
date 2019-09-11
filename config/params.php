@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'title' => '工厂管理系统',
+    'title' => '管理系统',
     "domain" => [
-        'www' => 'http://demo.com/',
-        'm' => 'http://demo.com/m',
-        'web' => 'http://demo.com/web',
-        'weixin' => 'http://demo.com/weixin',
+        'www' => 'http://ebk.ebk.ebk/',
+        'm' => 'http://ebk.ebk.ebk/m',
+        'web' => 'http://ebk.ebk.ebk/web',
+        'weixin' => 'http://ebk.ebk.ebk/weixin',
     ],
 
     "upload" => [
@@ -14,6 +14,6 @@ return [
         'brand' => "/uploads/brand",
         'book' => "/uploads/book",
     ],
-    
+    'page'=> 3,
 
 ];

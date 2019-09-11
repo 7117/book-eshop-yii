@@ -24,6 +24,7 @@ StaticService::includeAppJsStatic("/js/web/account/index.js",['depends' => app\a
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" name="mix_kw" placeholder="请输入姓名或者手机号码" class="form-control" value="">
+<!--                     这里隐藏了p的参数-->
                         <input type="hidden" name="p" value="1">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-primary search">

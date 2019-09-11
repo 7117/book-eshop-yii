@@ -38,7 +38,8 @@ class AccountController extends BaseController
         }
 
         //分页
-        $page_size = 2;
+//
+        $page_size = Yii::$app->params['page'];
         $total_res_count = $query->count();
         $total_page = ceil($total_res_count/$page_size);
 
@@ -62,6 +63,7 @@ class AccountController extends BaseController
         ]);
     }
 
+//    新建个人信息
     public function actionSet()
     {
         if (Yii::$app->request->isGet){
@@ -112,7 +114,7 @@ class AccountController extends BaseController
 
         return $this->renderJson([],"操作成功");
     }
-
+//查看个人信息
     public function actionInfo()
     {
         $id = intval($this->get("id",0));

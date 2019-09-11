@@ -8,6 +8,7 @@ class UrlService {
 
     public static function buildWebUrl($path,$params = [] ){
         $domain_config = Yii::$app->params['domain'];
+//        第一个参数是域名后面所有的
         $path = Url::toRoute(array_merge([$path],$params));
         return $domain_config['web'].$path;
     }

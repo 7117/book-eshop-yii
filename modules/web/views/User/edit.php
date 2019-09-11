@@ -3,7 +3,7 @@ use  \app\common\services\StaticService;
 StaticService::includeAppJsStatic("/js/web/user/edit.js",['depends' => app\assets\WebAsset::className()]);
 ?>
 
-<?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_user.php",['current' => 'edit']);?>
+<?=$this->renderFile("@app/modules/web/views/common/tab_user.php",['current' => 'edit']);?>
 
 <div class="row m-t  user_edit_wrap">
     <div class="col-lg-12">

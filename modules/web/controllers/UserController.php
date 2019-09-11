@@ -1,5 +1,6 @@
 <?php
 
+//到文件夹名字
 namespace app\modules\web\controllers;
 
 use Yii;
@@ -7,8 +8,10 @@ use app\models\User;
 use app\common\services\UrlService;
 use app\modules\web\controllers\common\BaseController;
 
+//其实这个UserController其实是在命名这个类
 class UserController extends BaseController
 {
+//    初始化代码
     public function __construct($id,$module,array $config=[]){
         parent::__construct($id,$module,$config);
         $this->layout="main";
@@ -39,6 +42,7 @@ class UserController extends BaseController
         }
 
         //加密字符串."#".uid   加密字符串 = md5(login_name + login_pwd + login_salt)
+        //就是保存cokkie
         $this->setLoginStatus($user_info);
 
         return $this->redirect(UrlService::buildWebUrl("/dashboard/index"));
@@ -47,6 +51,7 @@ class UserController extends BaseController
 
     public function actionLogout(){
         $this->removeCookie($this->auth_cookie_name);
+//        跳转  第二个参数302表示的是临时跳转
         return $this->redirect(UrlService::buildWebUrl("/user/login"));
     }
 
@@ -75,7 +80,7 @@ class UserController extends BaseController
         $user_info->update(0);
 
         $this->setLoginStatus($user_info);
-
+//json是因为ajax进行提交的
         return $this->renderJSON([],$msg="操作成功");
     }
 

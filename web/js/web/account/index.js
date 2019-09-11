@@ -4,6 +4,7 @@ $(document).ready(function(){
     });
 
     $(".remove").click(function(){
+        //通过获取属性值  attr
         var uid = $(this).attr("data");
         ops("remove",uid);
     });
@@ -25,7 +26,7 @@ $(document).ready(function(){
                   },
                   dataType:'json',
                   success:function(res){
-                      callback = null;
+                      allback = null;
                       if(res.code == 200) {
                           callback =function () {
                               window.location.reload();
@@ -39,6 +40,9 @@ $(document).ready(function(){
 
           }
         };
+        //记住callback是一个回调函数
+        //回调函数是作为一个参数在函数中
+        //然后在函数内部让他运行
         common_ops.confirm((act == "remove")?"确定删除吗？":"确定恢复吗？",callback);
     }
 })
