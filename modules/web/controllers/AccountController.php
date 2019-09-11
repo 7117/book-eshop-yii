@@ -130,6 +130,7 @@ class AccountController extends BaseController
         if (!$id) {
             return $this->redirect($back_url);
         }
+        
 
         $user_info = User::find()->where(['uid'=>$id])->one();
 
