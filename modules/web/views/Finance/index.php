@@ -64,7 +64,7 @@ StaticService::includeAppJsStatic( "/js/web/finance/index.js",\app\assets\WebAss
 			<?php endif;?>
 			</tbody>
 		</table>
-		<?php echo \Yii::$app->view->renderFile("@app/modules/web/views/common/pagination.php", [
+		<?php echo \Yii::$app->view->renderFile("@app/modules/web/views/common/page.php", [
 			'pages' => $pages,
 			'url' => '/finance/index',
 		]); ?>

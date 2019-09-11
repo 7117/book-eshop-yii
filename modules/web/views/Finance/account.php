@@ -33,7 +33,7 @@ use \app\common\services\ConstantMapService;
 			<?php endif;?>
 			</tbody>
 		</table>
-		<?php echo \Yii::$app->view->renderFile("@app/modules/web/views/common/pagination.php", [
+		<?php echo \Yii::$app->view->renderFile("@app/modules/web/views/common/page.php", [
 			'pages' => $pages,
 			'url' => '/finance/account'
 		]); ?>

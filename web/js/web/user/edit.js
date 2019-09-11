@@ -11,7 +11,7 @@ $(document).ready(function()
 
         button.addClass("disabled");
 
-        var nickname = $('.user_edit_wrap [name="nickname"]').val();
+        var nickname = $('.user_edit_wrap input[name="nickname"]').val();
         var email = $('.user_edit_wrap [name="email"]').val();
 
         if(nickname.length < 1){
@@ -32,6 +32,7 @@ $(document).ready(function()
                 email:email,
             },
             dataType:'json',
+            //接受renderJSON的返回值
             success:function (res) {
                 callback = null;
                 button.removeClass("disabled");

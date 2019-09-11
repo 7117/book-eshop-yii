@@ -6,7 +6,7 @@ $(document).ready(function(){
             common_ops.alert("请勿重复提交");
             return;
         }
-
+        var id = $('input[name="id"]').val();
         var nickname = $('input[name="nickname"]').val();
         var mobile = $('input[name="mobile"]').val();
         var email = $('input[name="email"]').val();
@@ -44,6 +44,7 @@ $(document).ready(function(){
             url:common_ops.buildWebUrl("/account/set"),
             type:'POST',
             data:{
+                id:id,
                 nickname:nickname,
                 mobile:mobile,
                 email:email,

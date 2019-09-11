@@ -46,6 +46,7 @@ class DailyController extends BaseController {
         $model_stat_site->total_order_count = $total_order_count?$total_order_count:0;
         $model_stat_site->total_shared_count = $total_shared_count?$total_shared_count:0;
 
+//        测试数据
         $model_stat_site->total_pay_money = mt_rand(1000,1010);
         $model_stat_site->total_new_member_count = mt_rand(50,100);
         $model_stat_site->total_member_count = $model_stat_site->total_member_count + $model_stat_site->total_new_member_count;

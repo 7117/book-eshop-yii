@@ -40,6 +40,7 @@ class BaseController extends BaseWebController
             return false;
         }
 
+//        访问信息的记录
         AppLogService::addAppAccessLog($this->current_user['uid']);
 
         return true;

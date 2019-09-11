@@ -11,7 +11,7 @@ $upload_config = Yii::$app->params['upload'];
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>管理后台</title>
+    <title><?php echo Yii::$app->params['title'];?></title>
     <?php $this->head();?>
 <body>
 <?php $this->beginBody();?>
@@ -20,12 +20,7 @@ $upload_config = Yii::$app->params['upload'];
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
-                    <div class="profile-element text-center">
-                        <img alt="image" class="img-circle" src="/images/web/logo.png" />
-                    </div>
-                    <div class="logo-element">
-                        <img alt="image" class="img-circle" src="/images/web/logo.png" />
-                    </div>
+
                 </li>
                 <li class="dashboard">
                     <a href="/web/dashboard/index"><i class="fa fa-dashboard fa-lg"></i>
@@ -38,7 +33,7 @@ $upload_config = Yii::$app->params['upload'];
                     <a href="/web/brand/info"><i class="fa fa-cog fa-lg"></i> <span class="nav-label">品牌设置</span></a>
                 </li>
                 <li class="book">
-                    <a href="/web/book/index"><i class="fa fa-book fa-lg"></i> <span class="nav-label">图书管理</span></a>
+                    <a href="/web/book/index"><i class="fa fa-book fa-lg"></i> <span class="nav-label">工厂管理</span></a>
                 </li>
                 <li class="member">
                     <a href="/web/member/index"><i class="fa fa-group fa-lg"></i> <span class="nav-label">会员列表</span></a>
@@ -67,7 +62,7 @@ $upload_config = Yii::$app->params['upload'];
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
 						<span class="m-r-sm text-muted welcome-message">
-                            图书商城管理后台
+                            <?php echo Yii::$app->params['title'];?>
                         </span>
                     </li>
                     <li class="hidden">
