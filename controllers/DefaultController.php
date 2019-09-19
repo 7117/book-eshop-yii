@@ -1,7 +1,5 @@
 <?php
-
 namespace app\controllers;
-
 
 use app\common\components\BaseWebController;
 use app\common\services\captcha\ValidateCode;
