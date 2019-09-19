@@ -40,7 +40,8 @@ class DefaultController extends BaseWebController {
             $this->removeCookie( $this->captcha_cookie_name );
             return $this->renderJson( [],"校验码不匹配",-1 );
         }
-
+//        新建的话就是new()
+//        更新的话，就是找到之后进行对模型赋值
         $model_sms = new SmsCaptcha();
         $model_sms->mobile = $mobile;
         $model_sms->ip = UtilService::getIP();
