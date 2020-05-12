@@ -18,7 +18,7 @@ $(document).ready(function(){
                     var tmp_book_id = $(this).attr("data");
                     var tmp_quantity = $(this).attr("data-quantity");
                     data.push( tmp_book_id + "#" + tmp_quantity );
-                });
+                 });
 
                 if( data.length < 1 ){
                     alert("请选择了商品在提交");

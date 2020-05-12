@@ -21,6 +21,7 @@ class OauthController extends BaseController {
         $redirect_uri = UrlService::buildMUrl( "/oauth/callback" );
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appid}&redirect_uri={$redirect_uri}&response_type=code&scope={$scope}&state=#wechat_redirect";
 
+        // 第一步！
         return $this->redirect( $url );
     }
 

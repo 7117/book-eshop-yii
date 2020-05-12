@@ -47,6 +47,8 @@ StaticService::includeAppJsStatic("/js/web/book/index.js",['depends' => app\asse
             </div>
 
         </form>
+
+
         <table class="table table-bordered m-t">
             <thead>
             <tr>

@@ -1,24 +1,23 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     charts_ops = {
-        setOption:function(){
+        setOption: function () {
             Highcharts.setOptions({
-                chart: {
-                },
+                chart: {},
                 exporting: {
                     enabled: false
                 },
                 legend: {
                     //enabled:false
                 },
-                credits:{
-                    enabled:false
+                credits: {
+                    enabled: false
                 },
-                colors:['#058DC7', '#50B432', '#ED561B', '#DDDF00',
-                    '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4','#E93EFF'],
+                colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00',
+                    '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4', '#E93EFF'],
                 title: '',
                 xAxis: {
-                    tickWidth:0,
+                    tickWidth: 0,
                     lineWidth: 0,
                     gridLineColor: '#eee',
                     //gridLineWidth: 1,
@@ -77,8 +76,9 @@ $(document).ready(function(){
                 }
             });
         },
-        drawLine:function( target ,data ){//画直线
-            var chart =  target.highcharts({
+
+        drawLine: function (target, data) {//画直线
+            var chart = target.highcharts({
                 chart: {
                     type: 'spline'
                 },
@@ -87,7 +87,7 @@ $(document).ready(function(){
                 },
                 series: data.series,
                 legend: {
-                    enabled:true,
+                    enabled: true,
                     align: 'right',
                     verticalAlign: 'top',
                     x: 0,

@@ -36,6 +36,7 @@ class PayOrderService extends  BaseService {
         $pay_price = sprintf("%.2f",$pay_price);
 
         $date_now = date("Y-m-d H:i:s");
+
         $connection =  PayOrder::getDb();
         $transaction = $connection->beginTransaction();
         try{

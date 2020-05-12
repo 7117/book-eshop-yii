@@ -80,7 +80,7 @@ class UserController extends BaseController
         $user_info->update(0);
 
         $this->setLoginStatus($user_info);
-//json是因为ajax进行提交的
+        //json是因为ajax进行提交的
         return $this->renderJSON([],$msg="操作成功");
     }
 

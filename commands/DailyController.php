@@ -12,6 +12,8 @@ use app\models\stat\StatDailyShare;
 use app\models\stat\StatDailySite;
 use app\models\WxShareHistory;
 
+// php D:\phpstudy\PHPTutorial\WWW\bookEmall\web\index.php
+
 class DailyController extends BaseController {
 
     public function actionSite( $date = 'now' ){

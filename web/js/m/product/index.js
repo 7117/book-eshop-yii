@@ -9,10 +9,12 @@ $(document).ready(function () {
         },
         eventBind:function(){
             var that = this;
+            //这个是字段的搜索
             $(".search_header .search_icon").click( function(){
                 that.search();
             });
 
+            //排序字段顺序
             $(".sort_box .sort_list li a").click( function(){
                 that.sort_field = $(this).attr("data");
                 if( $(this).find("i").hasClass("high_icon")  ){

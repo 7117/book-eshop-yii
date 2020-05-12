@@ -11,6 +11,7 @@ $(document).ready(function(){
                 type:'GET',
                 dataType:'json',
                 success:function( res ){
+
                     if( res.code != 200 ){
                         return ;
                     }
@@ -24,6 +25,7 @@ $(document).ready(function(){
                         signature: data['signature'],
                         jsApiList: [ 'onMenuShareTimeline','onMenuShareAppMessage','wx.onMenuShareQQ' ]
                     });
+
                     wx.ready(function(){
 
                         var share_info =  eval( '(' + $("#share_info").val() + ")" );

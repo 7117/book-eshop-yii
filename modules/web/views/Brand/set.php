@@ -27,7 +27,10 @@ StaticService::includeAppJsStatic("/js/web/brand/set.js",['depends' => \app\asse
                         <div class="upload_wrap pull-left">
                             <i class="fa fa-upload fa-2x"></i>
                             <input type="hidden" name="bucket" value="brand" />
+
+                            <!-- pic-->
                             <input type="file" name="pic" accept="image/png, image/jpeg, image/jpg,image/gif">
+
                         </div>
 
                         <?php if ( $info ):?>

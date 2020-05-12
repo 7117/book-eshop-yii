@@ -11,7 +11,7 @@ $(document).ready(function()
 
         button.addClass("disabled");
 
-        var nickname = $('.user_edit_wrap input[name="nickname"]').val();
+        var nickname = $('[name="nickname"]').val();
         var email = $('.user_edit_wrap [name="email"]').val();
 
         if(nickname.length < 1){

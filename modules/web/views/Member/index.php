@@ -9,6 +9,7 @@ StaticService::includeAppJsStatic("/js/web/member/index.js",["depends" => \app\a
 
 <div class="row">
     <div class="col-lg-12">
+<!--        默认提交至index方法！-->
         <form class="form-inline wrap_search">
             <div class="row  m-t p-w-m">
                 <div class="form-group">

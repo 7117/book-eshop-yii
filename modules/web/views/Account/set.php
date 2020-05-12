@@ -5,7 +5,7 @@ use app\common\services\ConstantMapService;
 StaticService::includeAppJsStatic("/js/web/account/set.js",['depends' => app\assets\WebAsset::className()]);
 ?>
 
-<?=Yii::$app->view->renderFile("@app/modules/web/views/common/tab_account.php",['current' => 'index']);?>
+<?=Yii::$app->getView()->renderFile("@app/modules/web/views/common/tab_account.php",['current' => 'index']);?>
 
 
 <div class="row m-t  wrap_account_set">
